@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import { rollup } from 'rollup';
 
-import rollupConfig from './src/rollup.config.js';
+import makeBundle from './src/make-bundle.js';
 
 
 const svelteRender = async (context, {
