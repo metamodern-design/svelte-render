@@ -3,8 +3,8 @@ const renderHtml = (component, template) => {
 
   return (
     template
-      .replace('%svelte.head%', head)
-      .replace('%svelte.html%', html)
+      .replace('%svelte:head%', head)
+      .replace('%svelte:html%', html)
   );
 };
 
