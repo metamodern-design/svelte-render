@@ -7,7 +7,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 
-import babelConfig from './babel-config';
+import babelConfig from './babel-config.js';
 
 
 const makeBundle = (input, {
@@ -36,8 +36,8 @@ const makeBundle = (input, {
       dev: (mode !== 'production'),
       hydratable: (mode === 'production'),
       css: (generate === 'dom')
-        ? (css) => { 
-          css.write('./static/global.css', mode !== 'production'); 
+        ? (css) => {
+          css.write('./static/global.css', mode !== 'production');
         }
         : false,
       ...svelteOptions,

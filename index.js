@@ -1,7 +1,8 @@
+import path from 'path';
 import fs from 'fs-extra';
-import { rollup } from 'rollup';
 
 import makeBundle from './src/make-bundle.js';
+import renderHtml from './src/render-html.js';
 
 
 const svelteRender = async (context, {
@@ -20,27 +21,27 @@ const svelteRender = async (context, {
       mode,
       ...options,
     });
-    
+
     const cache = path.resolve(context, './.svelte-render/index.js');
-    
+
     await indexBundle.write({
       format: 'es',
       file: cache,
     });
-  
+
     const component = await import(cache);
 
     const template = await fs.readFile(
       path.resolve(context, src, 'template.html'),
       'utf8',
     );
-  
+
     await fs.outputFile(
       path.resolve(context, dist, 'index.html'),
       renderHtml(component, template),
     );
-  } // else generate minimal index.html 
-  
+  } // else generate minimal index.html
+
   const clientEntry = path.resolve(context, src, client);
 
   const clientBundle = await makeBundle(clientEntry, {
@@ -48,7 +49,7 @@ const svelteRender = async (context, {
     mode,
     ...options,
   });
-  
+
   await clientBundle.write({
     format: 'iife',
     file: path.resolve(context, dist, client),

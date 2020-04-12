@@ -12,7 +12,9 @@ export default [
       { file: pkg.module, format: 'es' }
     ],
     plugins: [
-      nodeResolve(),
+      nodeResolve({
+        preferBuiltins: true,
+      }),
       commonjs(),
     ],
   },

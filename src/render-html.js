@@ -1,6 +1,6 @@
 const renderHtml = (component, template) => {
   const { head, html } = component.render();
-  
+
   return (
     template
       .replace('%svelte.head%', head)

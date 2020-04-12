@@ -3,19 +3,19 @@ const babelConfig = ({
   babelOptions = {},
   babelPlugins = [],
   babelPresets = [
-    '@babel/preset-env', 
+    '@babel/preset-env',
     {
       targets,
       corejs: 3,
-      useBuiltIns: 'usage', 
+      useBuiltIns: 'usage',
     },
   ],
-} = {}) => {
+} = {}) => ({
   plugins: babelPlugins,
   presets: babelPresets,
   ...babelOptions,
   exclude: [].concat(/\/core-js\//, babelOptions.exclude || []),
-};
+});
 
 
 export default babelConfig;
