@@ -2,14 +2,11 @@ const babelConfig = ({
   targets = '> 1.5% in US, Firefox ESR, not dead',
   babelOptions = {},
   babelPlugins = [],
-  babelPresets = [
-    '@babel/preset-env',
-    {
-      targets,
-      corejs: 3,
-      useBuiltIns: 'usage',
-    },
-  ],
+  babelPresets = [['@babel/preset-env', {
+    targets,
+    corejs: 3,
+    useBuiltIns: 'usage',
+  }]],
 } = {}) => ({
   plugins: babelPlugins,
   presets: babelPresets,

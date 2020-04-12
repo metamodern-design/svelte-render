@@ -29,7 +29,8 @@ const svelteRender = async (context, {
       file: cache,
     });
 
-    const component = await import(cache);
+    const module = await import(cache);
+    const component = module.default;
 
     const template = await fs.readFile(
       path.resolve(context, src, 'template.html'),

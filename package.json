@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "@rollup/plugin-commonjs": "^11.1.0",
     "@rollup/plugin-node-resolve": "^7.1.2",
     "@rollup/plugin-replace": "^2.3.1",
@@ -40,16 +41,19 @@
   },
   "devDependencies": {
     "ava": "^3.5.1",
+    "core-js": "^3.6.5",
     "del-cli": "^3.0.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-ava": "^10.2.0",
     "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-svelte3": "^2.7.3",
     "eslint-plugin-types": "^1.0.2",
     "np": "^5.2.1",
     "rollup": "^2.6.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "tinydate": "^1.2.0",
     "updtr": "^3.1.0"
   },
   "engines": {

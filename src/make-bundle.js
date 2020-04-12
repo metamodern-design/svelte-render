@@ -5,7 +5,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
-import { terser } from 'rollup-plugin-terser';
+import terser from 'rollup-plugin-terser';
 
 import babelConfig from './babel-config.js';
 
@@ -57,7 +57,7 @@ const makeBundle = (input, {
       ))
       : [],
     (mode === 'production' && generate === 'dom')
-      ? terser(terserOptions)
+      ? (terser.terser || terser)(terserOptions)
       : [],
   ),
   ...rollupInputOptions,
