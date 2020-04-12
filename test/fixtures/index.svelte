@@ -13,7 +13,7 @@
 <div>
   <p> Hello, World! <Message adjective='lovely'/></p>
   <Clock/>
-<div>
+</div>
 
 
 <style>
