@@ -18,6 +18,7 @@ const makeBundle = (input, {
   rollupInputPlugins = [],
   svelteOptions = {},
   sveltePreprocess = {},
+  terserOptions = {},
   browserslistTargets,
   babelOptions,
   babelPlugins,
@@ -33,8 +34,12 @@ const makeBundle = (input, {
       generate,
       preprocess: sveltePreprocess,
       dev: (mode !== 'production'),
-      hydratable: (mode === 'production' && generate === 'dom'),
-      css: (css) => { css.write('./static/global.css', false); },
+      hydratable: (mode === 'production'),
+      css: (generate === 'dom')
+        ? (css) => { 
+          css.write('./static/global.css', mode !== 'production'); 
+        }
+        : false,
       ...svelteOptions,
     }),
     rollupInputPlugins,
@@ -52,7 +57,7 @@ const makeBundle = (input, {
       ))
       : [],
     (mode === 'production' && generate === 'dom')
-      ? terser()
+      ? terser(terserOptions)
       : [],
   ),
   ...rollupInputOptions,

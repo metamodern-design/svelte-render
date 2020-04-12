@@ -29,13 +29,16 @@ const svelteRender = async (context, {
     });
   
     const component = await import(cache);
+
+    const template = await fs.readFile(
+      path.resolve(context, src, 'template.html'),
+      'utf8',
+    );
   
-    const { head, html, css } = component.render();
-    
-    fs.writeFileSync('./temp/head.html', head);
-    fs.writeFileSync('./temp/app.html', html);
-    fs.writeFileSync('./temp/app.css', css.code);
-  
+    await fs.outputFile(
+      path.resolve(context, dist, 'index.html'),
+      renderHtml(component, template),
+    );
   } // else generate minimal index.html 
   
   const clientEntry = path.resolve(context, src, client);
