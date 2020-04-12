@@ -57,7 +57,7 @@ const makeBundle = (input, {
       ))
       : [],
     (mode === 'production' && generate === 'dom')
-      ? (terser.terser || terser)(terserOptions)
+      ? terser.terser(terserOptions)
       : [],
   ),
   ...rollupInputOptions,
