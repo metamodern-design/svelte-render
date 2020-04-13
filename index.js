@@ -26,7 +26,7 @@ const svelteRender = async (context, {
       ),
     ]);
 
-    const cache = path.resolve(context, `./.svelte-render/ssr.js`);
+    const cache = path.resolve(context, './.svelte-render/ssr.js');
 
     await Promise.all([
       ssrBundle.write({
