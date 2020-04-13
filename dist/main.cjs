@@ -109,10 +109,7 @@ const svelteRender = async (context, {
       file: cache,
     });
 
-    let component;
-    let template;
-
-    [component, template] = await Promise.all([
+    const [component, template] = await Promise.all([
       esmConfig(cache),
       fs.readFile(path.resolve(context, src, 'template.html'), 'utf8'),
     ]);
