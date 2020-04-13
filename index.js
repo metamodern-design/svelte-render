@@ -53,12 +53,12 @@ const svelteRender = async (context, {
       path.resolve(context, src, client),
       { generate: 'dom', mode, ...options },
     );
-  
+
     await clientBundle.write({
       format: 'iife',
       file: path.resolve(context, dist, client),
     });
-    
+
     // else generate minimal index.html
   }
 };

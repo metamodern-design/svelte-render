@@ -91,23 +91,35 @@ const renderHtml = (component, template) => {
 const svelteRender = async (context, {
   src = 'src',
   dist = 'dist',
-  index = 'index.svelte',
-  client = 'client.js',
+  ssr = 'index',
+  client = 'client',
   mode = 'production',
   ...options
 } = {}) => {
   if (mode === 'production') {
-    const indexBundle = await makeBundle(
-      path.resolve(context, src, index),
-      { generate: 'ssr', mode, ...options },
-    );
+    const [ssrBundle, clientBundle] = await Promise.all([
+      makeBundle(
+        path.resolve(context, src, `${ssr}.svelte`),
+        { generate: 'ssr', mode, ...options },
+      ),
+      makeBundle(
+        path.resolve(context, src, `${client}.js`),
+        { generate: 'dom', mode, ...options },
+      ),
+    ]);
 
-    const cache = path.resolve(context, './.svelte-render/ssr.js');
+    const cache = path.resolve(context, `./.svelte-render/${ssr}.js`);
 
-    await indexBundle.write({
-      format: 'es',
-      file: cache,
-    });
+    await Promise.all([
+      ssrBundle.write({
+        format: 'es',
+        file: cache,
+      }),
+      clientBundle.write({
+        format: 'iife',
+        file: path.resolve(context, dist, client),
+      }),
+    ]);
 
     const [component, template] = await Promise.all([
       esmConfig(cache),
@@ -118,17 +130,19 @@ const svelteRender = async (context, {
       path.resolve(context, dist, 'index.html'),
       renderHtml(component, template),
     );
-  } // else generate minimal index.html
+  } else {
+    const clientBundle = await makeBundle(
+      path.resolve(context, src, client),
+      { generate: 'dom', mode, ...options },
+    );
 
-  const clientBundle = await makeBundle(
-    path.resolve(context, src, client),
-    { generate: 'dom', mode, ...options },
-  );
+    await clientBundle.write({
+      format: 'iife',
+      file: path.resolve(context, dist, client),
+    });
 
-  await clientBundle.write({
-    format: 'iife',
-    file: path.resolve(context, dist, client),
-  });
+    // else generate minimal index.html
+  }
 };
 
 module.exports = svelteRender;
