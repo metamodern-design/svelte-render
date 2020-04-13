@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
+import esmConfig from 'esm-config';
 
 import makeBundle from './src/make-bundle.js';
 import renderHtml from './src/render-html.js';
@@ -29,8 +30,7 @@ const svelteRender = async (context, {
       file: cache,
     });
 
-    const module = await import(cache);
-    const component = module.default;
+    const component = await esmConfig(cache);
 
     const template = await fs.readFile(
       path.resolve(context, src, 'template.html'),
