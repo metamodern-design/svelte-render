@@ -1,0 +1,37 @@
+{
+  "name": "test",
+  "version": "0.0.0",
+  "description": "Svelte test site",
+  "author": "Daniel C. Narey",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metamodern-design/svelte-render"
+  },
+  "scripts": {
+    "prebuild": "del dist/*",
+    "build": "metamodern-static",
+    "merge:dev": "git checkout master && git pull && git merge dev -s recursive -Xtheirs",
+    "lint": "eslint --fix src/scripts",
+    "sync": "git pull && git add . && git commit -m 'automated sync' && git push",
+    "test": "npm run lint && ava",
+    "update": "updtr"
+  },
+  "dependencies": {
+    "core-js": "^3.6.4",
+  },
+  "devDependencies": {
+    "ava": "^2.4.0",
+    "del-cli": "^3.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-ava": "^9.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-types": "^1.0.2",
+    "np": "^5.2.1",
+    "updtr": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
