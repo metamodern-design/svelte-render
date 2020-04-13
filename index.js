@@ -9,24 +9,24 @@ import renderHtml from './src/render-html.js';
 const svelteRender = async (context, {
   src = 'src',
   dist = 'dist',
-  ssr = 'index',
-  client = 'client',
+  ssr = 'index.svelte',
+  client = 'client.js',
   mode = 'production',
   ...options
 } = {}) => {
   if (mode === 'production') {
     const [ssrBundle, clientBundle] = await Promise.all([
       makeBundle(
-        path.resolve(context, src, `${ssr}.svelte`),
+        path.resolve(context, src, ssr),
         { generate: 'ssr', mode, ...options },
       ),
       makeBundle(
-        path.resolve(context, src, `${client}.js`),
+        path.resolve(context, src, client),
         { generate: 'dom', mode, ...options },
       ),
     ]);
 
-    const cache = path.resolve(context, `./.svelte-render/${ssr}.js`);
+    const cache = path.resolve(context, `./.svelte-render/ssr.js`);
 
     await Promise.all([
       ssrBundle.write({
