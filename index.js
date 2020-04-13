@@ -26,7 +26,7 @@ const svelteRender = async (context, {
       format: 'es',
       file: cache,
     });
-    
+
     let component;
     let template;
 

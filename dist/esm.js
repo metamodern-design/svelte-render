@@ -93,27 +93,25 @@ const svelteRender = async (context, {
   ...options
 } = {}) => {
   if (mode === 'production') {
-    const indexEntry = path.resolve(context, src, index);
+    const indexBundle = await makeBundle(
+      path.resolve(context, src, index),
+      { generate: 'ssr', mode, ...options },
+    );
 
-    const indexBundle = await makeBundle(indexEntry, {
-      generate: 'ssr',
-      mode,
-      ...options,
-    });
-
-    const cache = path.resolve(context, './.svelte-render/index.js');
+    const cache = path.resolve(context, './.svelte-render/ssr.js');
 
     await indexBundle.write({
       format: 'es',
       file: cache,
     });
 
-    const component = await esmConfig(cache);
+    let component;
+    let template;
 
-    const template = await fs.readFile(
-      path.resolve(context, src, 'template.html'),
-      'utf8',
-    );
+    [component, template] = await Promise.all([
+      esmConfig(cache),
+      fs.readFile(path.resolve(context, src, 'template.html'), 'utf8'),
+    ]);
 
     await fs.outputFile(
       path.resolve(context, dist, 'index.html'),
@@ -121,13 +119,10 @@ const svelteRender = async (context, {
     );
   } // else generate minimal index.html
 
-  const clientEntry = path.resolve(context, src, client);
-
-  const clientBundle = await makeBundle(clientEntry, {
-    generate: 'dom',
-    mode,
-    ...options,
-  });
+  const clientBundle = await makeBundle(
+    path.resolve(context, src, client),
+    { generate: 'dom', mode, ...options },
+  );
 
   await clientBundle.write({
     format: 'iife',
