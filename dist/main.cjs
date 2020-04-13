@@ -2,27 +2,9 @@
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-function _interopNamespace(e) {
-  if (e && e.__esModule) { return e; } else {
-    var n = {};
-    if (e) {
-      Object.keys(e).forEach(function (k) {
-        var d = Object.getOwnPropertyDescriptor(e, k);
-        Object.defineProperty(n, k, d.get ? d : {
-          enumerable: true,
-          get: function () {
-            return e[k];
-          }
-        });
-      });
-    }
-    n['default'] = e;
-    return n;
-  }
-}
-
 var path = _interopDefault(require('path'));
 var fs = _interopDefault(require('fs-extra'));
+var esmConfig = _interopDefault(require('esm-config'));
 var rollup = require('rollup');
 var babel = _interopDefault(require('rollup-plugin-babel'));
 var commonjs = _interopDefault(require('@rollup/plugin-commonjs'));
@@ -130,8 +112,7 @@ const svelteRender = async (context, {
       file: cache,
     });
 
-    const module = await new Promise(function (resolve) { resolve(_interopNamespace(require(cache))); });
-    const component = module.default;
+    const component = await esmConfig(cache);
 
     const template = await fs.readFile(
       path.resolve(context, src, 'template.html'),

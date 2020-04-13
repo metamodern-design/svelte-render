@@ -33,6 +33,7 @@
     "@rollup/plugin-node-resolve": "^7.1.2",
     "@rollup/plugin-replace": "^2.3.1",
     "cpy": "^8.1.0",
+    "esm-config": "^1.1.0",
     "fs-extra": "^9.0.0",
     "rollup": "^2.6.0",
     "rollup-plugin-babel": "^4.4.0",
