@@ -12,7 +12,10 @@
 
 
 <div>
-  <p> Hello, World! <Message adjective='lovely'/></p>
+  <p>
+    <span id="hello"> Hello, World! </span>
+    <Message adjective='lovely'/>
+  </p>
   <Clock/>
 </div>
 
