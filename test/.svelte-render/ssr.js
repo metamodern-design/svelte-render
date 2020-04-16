@@ -163,7 +163,7 @@ const Clock = create_ssr_component(($$result, $$props, $$bindings, $$slots) => {
 
 const css$2 = {
 	code: "p.svelte-16n4a6z{font-weight:bold;color:blue}",
-	map: "{\"version\":3,\"file\":\"index.svelte\",\"sources\":[\"index.svelte\"],\"sourcesContent\":[\"<script>\\n  import Message from './components/Message.svelte';\\n  import Clock from './components/Clock.svelte';\\n\\n</script>\\n\\n\\n<svelte:head>\\n  <title> My Site </title>\\n  <meta name=\\\"description\\\" content=\\\"All the things\\\">\\n</svelte:head>\\n\\n\\n<div>\\n  <p> Hello, World! <Message adjective='lovely'/></p>\\n  <Clock/>\\n</div>\\n\\n\\n<style>\\n  p {\\n    font-weight: bold;\\n    color: blue;\\n  }\\n</style>\\n\"],\"names\":[],\"mappings\":\"AAoBE,CAAC,eAAC,CAAC,AACD,WAAW,CAAE,IAAI,CACjB,KAAK,CAAE,IAAI,AACb,CAAC\"}"
+	map: "{\"version\":3,\"file\":\"index.svelte\",\"sources\":[\"index.svelte\"],\"sourcesContent\":[\"<script>\\n  import Message from './components/Message.svelte';\\n  import Clock from './components/Clock.svelte';\\n\\n</script>\\n\\n\\n<svelte:head>\\n  <title> My Site </title>\\n  <meta name=\\\"description\\\" content=\\\"All the things\\\">\\n</svelte:head>\\n\\n\\n<div>\\n  <p>\\n    <span id=\\\"hello\\\"> Hello, World! </span>\\n    <Message adjective='lovely'/>\\n  </p>\\n  <Clock/>\\n</div>\\n\\n\\n<style>\\n  p {\\n    font-weight: bold;\\n    color: blue;\\n  }\\n</style>\\n\"],\"names\":[],\"mappings\":\"AAuBE,CAAC,eAAC,CAAC,AACD,WAAW,CAAE,IAAI,CACjB,KAAK,CAAE,IAAI,AACb,CAAC\"}"
 };
 
 const Fixtures = create_ssr_component(($$result, $$props, $$bindings, $$slots) => {
@@ -172,7 +172,8 @@ const Fixtures = create_ssr_component(($$result, $$props, $$bindings, $$slots) =
 	return `${($$result.head += `${($$result.title = `<title> My Site </title>`, "")}<meta name="${"description"}" content="${"All the things"}" data-svelte="svelte-rgky3q">`, "")}
 
 
-<div><p class="${"svelte-16n4a6z"}">Hello, World! ${validate_component(Message, "Message").$$render($$result, { adjective: "lovely" }, {}, {})}</p>
+<div><p class="${"svelte-16n4a6z"}"><span id="${"hello"}">Hello, World! </span>
+    ${validate_component(Message, "Message").$$render($$result, { adjective: "lovely" }, {}, {})}</p>
   ${validate_component(Clock, "Clock").$$render($$result, {}, {}, {})}
 </div>`;
 });
