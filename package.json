@@ -53,6 +53,7 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-svelte3": "^2.7.3",
     "eslint-plugin-types": "^1.0.2",
+    "jsdom": "^16.2.2",
     "np": "^5.2.1",
     "tinydate": "^1.2.0",
     "updtr": "^3.1.0"
