@@ -11,12 +11,21 @@ import render from '../dist/esm.js';
 const { JSDOM } = jsdom;
 
 const context = path.resolve(process.cwd(), 'test');
+const src = path.resolve(process.cwd(), 'test/fixtures');
+const dist = path.resolve(process.cwd(), 'test/dist');
 
 
-test.before(async () => {
-  await render(context, {
-  	src: path.resolve(context, 'fixtures'),
-  });
+test.before(async (t) => {
+  await render(context, { src });
+  
+  const html = await fs.readFile(
+    path.resolve(dist, 'index.html'),
+    'utf8',
+  );
+  
+  const dom = new JSDOM(html);
+  
+  t.context.document = dom.window.document;
 });
 
 
@@ -26,12 +35,7 @@ test.after(async () => {
 
 
 test('SSR document loads', async (t) => {
-  const html = await fs.readFile(
-  	path.resolve(context, 'dist/index.html'),
-  	'utf8',
-  );
-  
-  const { document } = (new JSDOM(html)).window;
+  const { document } = t.context;
  
   t.is(
     document.getElementById('hello').textContent.trim(),

@@ -66,13 +66,14 @@
     "access": "public"
   },
   "keywords": [
-    "tailwind",
-    "tailwindcss",
-    "configuration",
-    "config",
-    "design system",
-    "design",
-    "system"
+    "svelte",
+    "render",
+    "ssr",
+    "hydrate",
+    "hydration",
+    "JAMstack",
+    "static",
+    "Netlify"
   ],
   "ava": {
     "nodeArguments": [
