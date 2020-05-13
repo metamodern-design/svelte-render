@@ -10,7 +10,7 @@ import svelte from 'rollup-plugin-svelte';
 import terser from 'rollup-plugin-terser';
 
 const babelConfig = ({
-  targets = '> 1.5% in US, Firefox ESR, not dead',
+  targets = '> 1.5% in US, Firefox ESR, not ie <= 11, not dead',
   babelOptions = {},
   babelPlugins = [],
   babelPresets = [['@babel/preset-env', {
@@ -26,9 +26,9 @@ const babelConfig = ({
 });
 
 const makeBundle = (input, {
-  generate = 'dom',
-  mode = 'production',
-  transpile = (mode === 'production'),
+  ssr = false,
+  development = false,
+  transpile = !development,
   rollupInputOptions = {},
   rollupInputPlugins = [],
   svelteOptions = {},
@@ -42,32 +42,32 @@ const makeBundle = (input, {
   input,
   plugins: [].concat(
     replace({
-      'process.browser': (generate === 'dom'),
-      'process.env.NODE_ENV': JSON.stringify(mode),
+      'process.browser': !ssr,
+      'process.env.NODE_ENV': (development ? 'development' : 'production'),
     }),
     svelte({
-      generate,
+      generate: (ssr ? 'ssr' : 'dom'),
       preprocess: sveltePreprocess,
-      dev: (mode !== 'production'),
-      hydratable: (mode === 'production'),
-      css: (generate === 'dom')
-        ? (css) => {
-          css.write('./static/global.css', mode !== 'production');
-        }
-        : false,
+      dev: development,
+      hydratable: !development,
+      css: (
+        ssr
+          ? false
+          : (css) => { css.write('./static/global.css', development); }
+      ),
       ...svelteOptions,
     }),
     rollupInputPlugins,
     resolve({
-      browser: (generate === 'dom'),
+      browser: !ssr,
       dedupe: ['svelte'],
     }),
     commonjs(),
-    (transpile && generate === 'dom')
+    (!ssr && transpile)
       ? babel(babelConfig(
         browserslistTargets))
       : [],
-    (mode === 'production' && generate === 'dom')
+    (!ssr && !development)
       ? terser.terser(terserOptions)
       : [],
   ),
@@ -87,27 +87,27 @@ const renderHtml = (component, template) => {
 const svelteRender = async (context, {
   src = 'src',
   dist = 'dist',
-  ssr = 'index.svelte',
+  entry = 'index.svelte',
   client = 'client.js',
-  mode = 'production',
+  development = false,
   ...options
 } = {}) => {
-  if (mode === 'production') {
-    const [ssrBundle, clientBundle] = await Promise.all([
+  if (!development) {
+    const [entryBundle, clientBundle] = await Promise.all([
       makeBundle(
-        path.resolve(context, src, ssr),
-        { generate: 'ssr', mode, ...options },
+        path.resolve(context, src, entry),
+        { ssr: true, development, ...options },
       ),
       makeBundle(
         path.resolve(context, src, client),
-        { generate: 'dom', mode, ...options },
+        { ssr: false, development, ...options },
       ),
     ]);
 
-    const cache = path.resolve(context, './.svelte-render/ssr.js');
+    const cache = path.resolve(context, './.svelte-render/entry.js');
 
     await Promise.all([
-      ssrBundle.write({
+      entryBundle.write({
         format: 'es',
         file: cache,
       }),
@@ -129,7 +129,7 @@ const svelteRender = async (context, {
   } else {
     const clientBundle = await makeBundle(
       path.resolve(context, src, client),
-      { generate: 'dom', mode, ...options },
+      { ssr: false, development, ...options },
     );
 
     await clientBundle.write({
