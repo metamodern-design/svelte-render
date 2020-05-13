@@ -1,5 +1,5 @@
 const babelConfig = ({
-  targets = '> 1.5% in US, Firefox ESR, not dead',
+  targets = '> 1.5% in US, Firefox ESR, not ie <= 11, not dead',
   babelOptions = {},
   babelPlugins = [],
   babelPresets = [['@babel/preset-env', {

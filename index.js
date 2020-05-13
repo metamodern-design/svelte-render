@@ -9,27 +9,27 @@ import renderHtml from './src/render-html.js';
 const svelteRender = async (context, {
   src = 'src',
   dist = 'dist',
-  ssr = 'index.svelte',
+  entry = 'index.svelte',
   client = 'client.js',
-  mode = 'production',
+  development = false,
   ...options
 } = {}) => {
-  if (mode === 'production') {
-    const [ssrBundle, clientBundle] = await Promise.all([
+  if (!development) {
+    const [entryBundle, clientBundle] = await Promise.all([
       makeBundle(
-        path.resolve(context, src, ssr),
-        { generate: 'ssr', mode, ...options },
+        path.resolve(context, src, entry),
+        { ssr: true, development, ...options },
       ),
       makeBundle(
         path.resolve(context, src, client),
-        { generate: 'dom', mode, ...options },
+        { ssr: false, development, ...options },
       ),
     ]);
 
-    const cache = path.resolve(context, './.svelte-render/ssr.js');
+    const cache = path.resolve(context, './.svelte-render/entry.js');
 
     await Promise.all([
-      ssrBundle.write({
+      entryBundle.write({
         format: 'es',
         file: cache,
       }),
@@ -51,7 +51,7 @@ const svelteRender = async (context, {
   } else {
     const clientBundle = await makeBundle(
       path.resolve(context, src, client),
-      { generate: 'dom', mode, ...options },
+      { ssr: false, development, ...options },
     );
 
     await clientBundle.write({

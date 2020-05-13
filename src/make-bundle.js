@@ -11,9 +11,9 @@ import babelConfig from './babel-config.js';
 
 
 const makeBundle = (input, {
-  generate = 'dom',
-  mode = 'production',
-  transpile = (mode === 'production'),
+  ssr = false,
+  development = false,
+  transpile = !development,
   rollupInputOptions = {},
   rollupInputPlugins = [],
   svelteOptions = {},
@@ -27,28 +27,28 @@ const makeBundle = (input, {
   input,
   plugins: [].concat(
     replace({
-      'process.browser': (generate === 'dom'),
-      'process.env.NODE_ENV': JSON.stringify(mode),
+      'process.browser': !ssr,
+      'process.env.NODE_ENV': (development ? 'development' : 'production'),
     }),
     svelte({
-      generate,
+      generate: (ssr ? 'ssr' : 'dom'),
       preprocess: sveltePreprocess,
-      dev: (mode !== 'production'),
-      hydratable: (mode === 'production'),
-      css: (generate === 'dom')
-        ? (css) => {
-          css.write('./static/global.css', mode !== 'production');
-        }
-        : false,
+      dev: development,
+      hydratable: !development,
+      css: (
+        ssr
+          ? false
+          : (css) => { css.write('./static/global.css', development); }
+      ),
       ...svelteOptions,
     }),
     rollupInputPlugins,
     resolve({
-      browser: (generate === 'dom'),
+      browser: !ssr,
       dedupe: ['svelte'],
     }),
     commonjs(),
-    (transpile && generate === 'dom')
+    (!ssr && transpile)
       ? babel(babelConfig(
         browserslistTargets,
         babelOptions,
@@ -56,7 +56,7 @@ const makeBundle = (input, {
         babelPresets,
       ))
       : [],
-    (mode === 'production' && generate === 'dom')
+    (!ssr && !development)
       ? terser.terser(terserOptions)
       : [],
   ),
