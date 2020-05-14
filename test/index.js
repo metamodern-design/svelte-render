@@ -29,9 +29,14 @@ test.before(async (t) => {
 });
 
 
+/*
 test.after(async () => {
-  await del(path.resolve(context, './dist'));
+  await del([
+    path.resolve(context, './dist'),
+    path.resolve(context, './.svelte-render'),
+  ]);
 });
+*/
 
 
 test('SSR document loads', async (t) => {
