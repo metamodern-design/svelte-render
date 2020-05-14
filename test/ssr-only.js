@@ -16,7 +16,10 @@ const dist = path.resolve(process.cwd(), 'test/dist');
 
 
 test.before(async (t) => {
-  await render(context, { src });
+  await render(context, { 
+    src,
+    client: false,
+  });
   
   const html = await fs.readFile(
     path.resolve(dist, 'index.html'),
@@ -45,5 +48,15 @@ test('SSR document loads', async (t) => {
   t.is(
     document.getElementById('hello').textContent.trim(),
     'Hello, World!',
+  );
+  
+  t.is(
+    document.getElementById('message').textContent.trim(),
+    'Have a nice day!',
+  );
+  
+  t.is(
+    document.getElementById('time').textContent.trim(),
+    '00:00:00',
   );
 });

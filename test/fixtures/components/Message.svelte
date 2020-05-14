@@ -4,7 +4,7 @@
 </script>
 
 
-<span> Have a {adjective} day! </span>
+<span id="message"> Have a {adjective} day! </span>
 
 
 <style>

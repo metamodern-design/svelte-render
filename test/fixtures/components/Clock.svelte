@@ -21,7 +21,7 @@
 </script>
 
 
-<p> The time is now {time}. </p>
+<p id="time"> The time is now {time}. </p>
 
 
 <style>
