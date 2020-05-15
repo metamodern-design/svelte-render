@@ -1,4 +1,5 @@
 import path from 'path';
+import util from 'util';
 
 import test from 'ava';
 import del from 'del';
@@ -38,10 +39,11 @@ test.before(async (t) => {
     resources: "usable",
   });
   
-  setTimeout(async () => {
+  await util.promisify(setTimeout)(3000)(() => {
     t.context.document = dom.window.document;
-    await fs.outputFile('test.html', dom.serialize()); 
-  }, 3000);
+  });
+  
+  await fs.outputFile('test.html', dom.serialize()); 
 });
 
 
