@@ -96,31 +96,9 @@ const svelteRender = async (context, {
   development = false,
   ...options
 } = {}) => {
-  if (!development) {
-    const [entryBundle, clientBundle] = await Promise.all([
-      makeBundle(
-        path.resolve(context, src, entry),
-        { ssr: true, development, ...options },
-      ),
-      makeBundle(
-        path.resolve(context, src, client),
-        { ssr: false, development, ...options },
-      ),
-    ]);
-
-    const cache = path.resolve(context, './.svelte-render/entry.js');
-
-    await Promise.all([
-      entryBundle.write({
-        format: 'es',
-        file: cache,
-      }),
-      clientBundle.write({
-        format: 'iife',
-        file: path.resolve(context, dist, client),
-      }),
-    ]);
-
+  const cache = path.resolve(context, './.svelte-render/entry.js');
+  
+  const generateHtml = async () => {
     const [component, template] = await Promise.all([
       esmConfig(cache),
       fs.readFile(path.resolve(context, src, 'template.html'), 'utf8'),
@@ -130,7 +108,25 @@ const svelteRender = async (context, {
       path.resolve(context, dist, 'index.html'),
       renderHtml(component, template),
     );
-  } else {
+    
+    return 1;
+  };
+
+  if (!client) {
+    const entryBundle = await makeBundle(
+      path.resolve(context, src, entry),
+      { ssr: true, development, ...options },
+    );
+
+    await entryBundle.write({
+      format: 'es',
+      file: cache,
+    });
+    
+    return generateHtml();
+  } 
+  
+  if (development) {
     const clientBundle = await makeBundle(
       path.resolve(context, src, client),
       { ssr: false, development, ...options },
@@ -140,9 +136,33 @@ const svelteRender = async (context, {
       format: 'iife',
       file: path.resolve(context, dist, client),
     });
-
-    // else generate minimal index.html
+    
+    return 1;
   }
+  
+  const [entryBundle, clientBundle] = await Promise.all([
+    makeBundle(
+      path.resolve(context, src, entry),
+      { ssr: true, development, ...options },
+    ),
+    makeBundle(
+      path.resolve(context, src, client),
+      { ssr: false, development, ...options },
+    ),
+  ]);
+
+  await Promise.all([
+    entryBundle.write({
+      format: 'es',
+      file: cache,
+    }),
+    clientBundle.write({
+      format: 'iife',
+      file: path.resolve(context, dist, client),
+    }),
+  ]);
+
+  return 1;
 };
 
 module.exports = svelteRender;
