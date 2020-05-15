@@ -30,11 +30,12 @@ test.before(async (t) => {
   
   const scriptInserted = html.replace(
     '<script src="client.js"></script>',
-    `<script>${client}</script>`,
+    `<script src="test/dist/client.js"></script>`,
   );
   
   const dom = new JSDOM(scriptInserted, {
     runScripts: "dangerously",
+    resources: "usable",
   });
   
   await fs.outputFile('test.html', dom.serialize()); 
