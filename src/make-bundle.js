@@ -1,5 +1,6 @@
-import { rollup } from 'rollup';
+import path from 'path';
 
+import { rollup } from 'rollup';
 import babel from 'rollup-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
