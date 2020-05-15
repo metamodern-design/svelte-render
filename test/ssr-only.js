@@ -32,14 +32,12 @@ test.before(async (t) => {
 });
 
 
-/*
 test.after(async () => {
   await del([
     path.resolve(context, './dist'),
     path.resolve(context, './.svelte-render'),
   ]);
 });
-*/
 
 
 test('SSR loads with hello world', async (t) => {

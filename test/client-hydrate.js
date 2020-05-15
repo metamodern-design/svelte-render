@@ -41,20 +41,16 @@ test.before(async (t) => {
   
   await util.promisify(setTimeout)(3000);
   
-  await fs.outputFile('test.html', dom.serialize());
-  
   t.context.document = dom.window.document;
 });
 
 
-/*
 test.after(async () => {
   await del([
     path.resolve(context, './dist'),
     path.resolve(context, './.svelte-render'),
   ]);
 });
-*/
 
 
 test('SSR loads with hello world', async (t) => {
