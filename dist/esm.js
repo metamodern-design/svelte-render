@@ -89,6 +89,7 @@ const svelteRender = async (context, {
   dist = 'dist',
   entry = 'index.svelte',
   client = 'client.js',
+  publicUrl = '',
   development = false,
   ...options
 } = {}) => {
