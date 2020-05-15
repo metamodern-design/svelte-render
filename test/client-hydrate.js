@@ -16,10 +16,7 @@ const dist = path.resolve(process.cwd(), 'test/dist');
 
 
 test.before(async (t) => {
-  await render(context, { 
-    src,
-    client: false,
-  });
+  await render(context, {src});
   
   const html = await fs.readFile(
     path.resolve(dist, 'index.html'),
@@ -52,20 +49,20 @@ test('SSR loads with hello world', async (t) => {
 });
 
 
-test('SSR loads with default message parameter', async (t) => {
+test('Client hydrates with assigned message prop', async (t) => {
   const { document } = t.context;
   
   t.is(
     document.getElementById('message').textContent.trim(),
-    'Have a nice day!',
+    'Have a lovely day!',
   );
 });
 
 
-test('SSR loads with default date parameter', async (t) => {
+test('Client hydrates with current datetime', async (t) => {
   const { document } = t.context;
   
-  t.is(
+  t.not(
     document.getElementById('time').textContent.trim(),
     'The time is now 00:00:00 on 01/01/00',
   );

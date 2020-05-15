@@ -2,11 +2,13 @@
   import tinydate from 'tinydate';
   import { onMount } from 'svelte';
 
-  const format = tinydate('{HH}:{mm}:{ss}');
+  const formatTime = tinydate('{HH}:{mm}:{ss}');
+  const formatDate = tinydate('{MM}/{DD}/{YY}');
    
   let now = new Date('Jan 1, 0 0:0');
 
-  $: time = format(now);
+  $: time = formatTime(now);
+  $: date = formatDate(now);
 
   onMount(() => {
     const interval = setInterval(() => {
@@ -21,7 +23,7 @@
 </script>
 
 
-<p id="time"> The time is now {time}. </p>
+<p id="time"> The time is now {time} on {date}. </p>
 
 
 <style>
