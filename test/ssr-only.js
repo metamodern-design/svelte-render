@@ -57,6 +57,6 @@ test('SSR document loads', async (t) => {
   
   t.is(
     document.getElementById('time').textContent.trim(),
-    '00:00:00',
+    'The time is now 00:00:00',
   );
 });
