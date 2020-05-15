@@ -67,6 +67,6 @@ test('SSR loads with default date parameter', async (t) => {
   
   t.is(
     document.getElementById('time').textContent.trim(),
-    'The time is now 00:00:00 on 01/01/00',
+    'The time is now 00:00:00 on 01/01/00.',
   );
 });
