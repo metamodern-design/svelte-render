@@ -38,9 +38,10 @@ test.before(async (t) => {
     resources: "usable",
   });
   
-  await fs.outputFile('test.html', dom.serialize()); 
-  
-  t.context.document = dom.window.document;
+  setTimeout(async () => {
+    t.context.document = dom.window.document;
+    await fs.outputFile('test.html', dom.serialize()); 
+  }, 3000);
 });
 
 
