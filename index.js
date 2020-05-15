@@ -1,6 +1,9 @@
 import path from 'path';
 import fs from 'fs-extra';
+
+import del from 'del';
 import esmConfig from 'esm-config';
+import uid from 'uid';
 
 import makeBundle from './src/make-bundle.js';
 import renderHtml from './src/render-html.js';
@@ -15,7 +18,7 @@ const svelteRender = async (context, {
   development = false,
   ...options
 } = {}) => {
-  const cache = path.resolve(context, './.svelte-render/entry.js');
+  const cache = path.resolve(context, `./.svelte-render/entry-${uid()}}.js`);
   
   const generateHtml = async () => {
     const [component, template] = await Promise.all([
@@ -27,6 +30,8 @@ const svelteRender = async (context, {
       path.resolve(context, dist, 'index.html'),
       renderHtml(component, template),
     );
+    
+    await del(cache);
     
     return 1;
   };
@@ -81,7 +86,7 @@ const svelteRender = async (context, {
     }),
   ]);
 
-  return 1;
+  return generateHtml();
 };
 
 

@@ -13,12 +13,12 @@ const { JSDOM } = jsdom;
 
 const context = path.resolve(process.cwd(), 'test');
 const src = path.resolve(process.cwd(), 'test/fixtures');
-const dist = path.resolve(process.cwd(), 'test/dist');
+const dist = path.resolve(process.cwd(), 'test/client-hydrate');
 
 
 test.before(async (t) => {
-  await render(context, { src });
-  
+  await render(context, { src, dist }),
+
   const html = await fs.readFile(
     path.resolve(dist, 'index.html'),
     'utf8',
@@ -41,43 +41,40 @@ test.before(async (t) => {
   
   await util.promisify(setTimeout)(3000);
   
-  t.context.document = dom.window.document;
+  t.context.hydrated = dom.window.document;
 });
 
 
-test.after(async () => {
-  await del([
-    path.resolve(context, './dist'),
-    path.resolve(context, './.svelte-render'),
-  ]);
+test.after.always(async () => {
+  await del(dist);
 });
 
 
 test('SSR loads with hello world', async (t) => {
-  const { document } = t.context;
+  const { hydrated } = t.context;
  
   t.is(
-    document.getElementById('hello').textContent.trim(),
+    hydrated.getElementById('hello').textContent.trim(),
     'Hello, World!',
   );
 });
 
 
 test('Client hydrates with assigned message prop', async (t) => {
-  const { document } = t.context;
+  const { hydrated } = t.context;
   
   t.is(
-    document.getElementById('message').textContent.trim(),
+    hydrated.getElementById('message').textContent.trim(),
     'Have a lovely day!',
   );
 });
 
 
 test('Client hydrates with current datetime', async (t) => {
-  const { document } = t.context;
+  const { hydrated } = t.context;
   
   t.not(
-    document.getElementById('time').textContent.trim(),
+    hydrated.getElementById('time').textContent.trim(),
     'The time is now 00:00:00 on 01/01/00.',
   );
 });

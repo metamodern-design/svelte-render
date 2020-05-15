@@ -12,14 +12,11 @@ const { JSDOM } = jsdom;
 
 const context = path.resolve(process.cwd(), 'test');
 const src = path.resolve(process.cwd(), 'test/fixtures');
-const dist = path.resolve(process.cwd(), 'test/dist');
+const dist = path.resolve(process.cwd(), 'test/ssr-only');
 
 
 test.before(async (t) => {
-  await render(context, { 
-    src,
-    client: false,
-  });
+  await render(context, { src, dist, client: false });
   
   const html = await fs.readFile(
     path.resolve(dist, 'index.html'),
@@ -28,43 +25,40 @@ test.before(async (t) => {
   
   const dom = new JSDOM(html);
   
-  t.context.document = dom.window.document;
+  t.context.ssr = dom.window.document;
 });
 
 
-test.after(async () => {
-  await del([
-    path.resolve(context, './dist'),
-    path.resolve(context, './.svelte-render'),
-  ]);
+test.after.always(async () => {
+  await del(dist);
 });
 
 
 test('SSR loads with hello world', async (t) => {
-  const { document } = t.context;
+  const { ssr } = t.context;
  
   t.is(
-    document.getElementById('hello').textContent.trim(),
+    ssr.getElementById('hello').textContent.trim(),
     'Hello, World!',
   );
 });
 
 
 test('SSR loads with default message parameter', async (t) => {
-  const { document } = t.context;
+  const { ssr } = t.context;
   
   t.is(
-    document.getElementById('message').textContent.trim(),
+    ssr.getElementById('message').textContent.trim(),
     'Have a nice day!',
   );
 });
 
 
 test('SSR loads with default date parameter', async (t) => {
-  const { document } = t.context;
+  const { ssr } = t.context;
   
   t.is(
-    document.getElementById('time').textContent.trim(),
+    ssr.getElementById('time').textContent.trim(),
     'The time is now 00:00:00 on 01/01/00.',
   );
 });
