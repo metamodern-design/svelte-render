@@ -28,12 +28,12 @@ test.before(async (t) => {
     'utf8',
   );
   
-  html.replace(
+  const scriptInserted = html.replace(
     '<script src="client.js"></script>',
     `<script>${client}</script>`,
   );
   
-  const dom = new JSDOM(html, {
+  const dom = new JSDOM(scriptInserted, {
     runScripts: "dangerously",
   });
   
