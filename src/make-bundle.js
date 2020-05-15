@@ -12,10 +12,10 @@ import babelConfig from './babel-config.js';
 
 
 const makeBundle = (input, {
-  assets = 'assets',
   ssr = false,
   development = false,
   transpile = !development,
+  assets = 'assets',
   rollupInputOptions = {},
   rollupInputPlugins = [],
   svelteOptions = {},
