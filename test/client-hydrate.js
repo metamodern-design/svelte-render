@@ -17,7 +17,7 @@ const dist = path.resolve(process.cwd(), 'test/client-hydrate');
 
 
 test.before(async (t) => {
-  await render(context, { src, dist }),
+  await render(context, { src, dist });
 
   const html = await fs.readFile(
     path.resolve(dist, 'index.html'),
