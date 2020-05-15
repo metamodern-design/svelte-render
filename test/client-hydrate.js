@@ -23,9 +23,18 @@ test.before(async (t) => {
     'utf8',
   );
   
+  const client = await fs.readFile(
+    path.resolve(dist, 'client.js'),
+    'utf8',
+  );
+  
+  html.replace(
+    '<script src="client.js"></script>',
+    `<script>${client}</script>`,
+  );
+  
   const dom = new JSDOM(html, {
     runScripts: "dangerously",
-    resources: "usable",
   });
   
   t.context.document = dom.window.document;
