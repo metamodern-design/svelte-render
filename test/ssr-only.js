@@ -13,10 +13,11 @@ const { JSDOM } = jsdom;
 const context = path.resolve(process.cwd(), 'test');
 const src = path.resolve(process.cwd(), 'test/fixtures');
 const dist = path.resolve(process.cwd(), 'test/ssr-only');
+const assets = path.resolve(process.cwd(), 'test/ssr-only-assets');
 
 
 test.before(async (t) => {
-  await render(context, { src, dist, client: false });
+  await render(context, { src, dist, assets, client: false });
   
   const html = await fs.readFile(
     path.resolve(dist, 'index.html'),
@@ -30,7 +31,7 @@ test.before(async (t) => {
 
 
 test.after.always(async () => {
-  await del(dist);
+  await del([dist, assets]);
 });
 
 

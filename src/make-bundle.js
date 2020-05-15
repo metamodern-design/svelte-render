@@ -11,6 +11,7 @@ import babelConfig from './babel-config.js';
 
 
 const makeBundle = (input, {
+  assets = 'assets',
   ssr = false,
   development = false,
   transpile = !development,
@@ -38,7 +39,9 @@ const makeBundle = (input, {
       css: (
         ssr
           ? false
-          : (css) => { css.write('./static/global.css', development); }
+          : (css) => {
+            css.write(path.resolve(assets, 'global.css'), development);
+          }
       ),
       ...svelteOptions,
     }),

@@ -12,6 +12,7 @@ import renderHtml from './src/render-html.js';
 const svelteRender = async (context, {
   src = 'src',
   dist = 'dist',
+  assets = 'assets',
   entry = 'index.svelte',
   client = 'client.js',
   publicUrl = '',

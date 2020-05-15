@@ -14,10 +14,11 @@ const { JSDOM } = jsdom;
 const context = path.resolve(process.cwd(), 'test');
 const src = path.resolve(process.cwd(), 'test/fixtures');
 const dist = path.resolve(process.cwd(), 'test/client-hydrate');
+const assets = path.resolve(process.cwd(), 'test/client-hydrate-assets');
 
 
 test.before(async (t) => {
-  await render(context, { src, dist });
+  await render(context, { src, dist, assets });
 
   const html = await fs.readFile(
     path.resolve(dist, 'index.html'),
@@ -46,7 +47,7 @@ test.before(async (t) => {
 
 
 test.after.always(async () => {
-  await del(dist);
+  await del([dist, assets]);
 });
 
 
