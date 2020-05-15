@@ -37,6 +37,8 @@ test.before(async (t) => {
     runScripts: "dangerously",
   });
   
+  await fs.outputFile('test.html', dom.serialize()); 
+  
   t.context.document = dom.window.document;
 });
 
