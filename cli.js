@@ -27,12 +27,22 @@ import tryCatch from './src/try-catch.js';
       
       const mergedOptions = { ...config, ...options };
       
-      console.log(`Svelte render in progress >>
-        context: ${context}
-        options: ${Object.entries(mergedOptions).map(([k, v]) => `\n    - ${k}: ${v} `)}
-      `);
+      const listedOptions = (
+        Object.entries(mergedOptions)
+          .map(([k, v]) => `    - ${k}: ${v}`)
+          .join('')
+      );
       
-      const spinner = ora().start();
+      console.log([
+        'Starting svelte-render >>',
+        `  context: ${context}`,
+        `  options: ${listedOptions}`,
+      ].join(''));
+      
+      const spinner = ora({
+        text: 'Building',
+        spinner: 'arrow3',
+      }).start();
         
       const exitCode = await svelteRender(context, mergedOptions);
       
