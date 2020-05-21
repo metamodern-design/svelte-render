@@ -11,6 +11,8 @@ import tryCatch from './src/try-catch.js';
 
 
 (async () => {
+  const spinner = ora({ spinner: 'point' });
+
   process.exitCode = await tryCatch(
     async () => {
       const { _, ...options } = mri(process.argv.slice(2));
@@ -27,22 +29,14 @@ import tryCatch from './src/try-catch.js';
       
       const mergedOptions = { ...config, ...options };
       
-      const listedOptions = (
-        Object.entries(mergedOptions)
-          .map(([k, v]) => `    - ${k}: ${v}`)
-          .join('\n')
-      );
-      
-      console.log([
-        'Starting svelte-render >>',
+      console.log([].concat(
+        'svelte-render',
         `  context: ${context}`,
-        `  options: ${listedOptions}`,
-      ].join('\n'));
+        '  options:',
+        Object.entries(mergedOptions).map(([k, v]) => `    - ${k}: ${v}`),
+      ).join('\n'));
       
-      const spinner = ora({
-        text: 'Building',
-        spinner: 'arrow3',
-      }).start();
+      spinner.start();
         
       const exitCode = await svelteRender(context, mergedOptions);
       
@@ -53,7 +47,7 @@ import tryCatch from './src/try-catch.js';
       return exitCode;
     },
     (err) => {
-      spinner.fail('Build failed:');
+      spinner.fail('Build failed');
       return err;
     },
   );
