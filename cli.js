@@ -30,14 +30,14 @@ import tryCatch from './src/try-catch.js';
       const listedOptions = (
         Object.entries(mergedOptions)
           .map(([k, v]) => `    - ${k}: ${v}`)
-          .join('')
+          .join('\n')
       );
       
       console.log([
         'Starting svelte-render >>',
         `  context: ${context}`,
         `  options: ${listedOptions}`,
-      ].join(''));
+      ].join('\n'));
       
       const spinner = ora({
         text: 'Building',
