@@ -16,9 +16,7 @@ import tryCatch from './src/try-catch.js';
   process.exitCode = await tryCatch(
     async () => {
       const { _, ...options } = mri(process.argv.slice(2));
-
       const context = path.resolve(process.cwd(), _[0] || '');
-
       const configPath = path.resolve(context, 'render.config.js');
 
       const config = (
@@ -37,7 +35,6 @@ import tryCatch from './src/try-catch.js';
       ).join('\n'));
       
       spinner.start();
-        
       const exitCode = await svelteRender(context, mergedOptions);
       
       if (exitCode) {

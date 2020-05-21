@@ -11,6 +11,12 @@
   "type": "module",
   "main": "./dist/main.cjs",
   "module": "./dist/esm.js",
+  "cli": "dist/cli.js",
+  "cliLegacy": "dist/cli-legacy.cjs",
+  "bin": {
+    "svelte-render": "dist/cli.js",
+    "svelte-render-legacy": "dist/cli-legacy.cjs"
+  },
   "exports": {
     ".": "./dist/esm.js"
   },
