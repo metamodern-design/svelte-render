@@ -6,8 +6,8 @@ import fs from 'fs-extra';
 import mri from 'mri';
 import ora from 'ora';
 
-import svelteRender from './index';
-import tryCatch from './src/try-catch';
+import svelteRender from './index.js';
+import tryCatch from './src/try-catch.js';
 
 
 (async () => {
@@ -29,21 +29,21 @@ import tryCatch from './src/try-catch';
       
       console.log(`Svelte render in progress >>
         context: ${context}
-        options: ${mergedOptions.map((k,v) => `\n    - ${k}: ${v} `)}
+        options: ${Object.entries(mergedOptions).map(([k, v]) => `\n    - ${k}: ${v} `)}
       `);
       
-      ora.start();
+      const spinner = ora().start();
         
       const exitCode = await svelteRender(context, mergedOptions);
       
       if (exitCode) {
-        ora.succeed('Build complete!');
+        spinner.succeed('Build complete!');
       }
       
       return exitCode;
     },
     (err) => {
-      ora.fail('Build failed:');
+      spinner.fail('Build failed:');
       return err;
     },
   );

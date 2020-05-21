@@ -36,6 +36,8 @@
     "del": "^5.1.0",
     "esm-config": "^1.1.0",
     "fs-extra": "^9.0.0",
+    "mri": "^1.1.5",
+    "ora": "^4.0.4",
     "rollup": "^2.10.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
