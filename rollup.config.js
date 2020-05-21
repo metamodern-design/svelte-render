@@ -5,13 +5,14 @@ import pkg from './package.json';
 
 
 const plugins = [
-  nodeResolve(),
+  nodeResolve({ preferBuiltins: true }),
   commonjs(),
 ];
 
 
 const external = [].concat(
   'path',
+  'os',
   Object.keys(pkg.dependencies),
 );
 

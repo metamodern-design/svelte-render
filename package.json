@@ -65,6 +65,7 @@
     "eslint-plugin-types": "^1.0.2",
     "jsdom": "^16.2.2",
     "np": "^6.2.3",
+    "rollup-plugin-preserve-shebangs": "^0.2.0",
     "tinydate": "^1.2.0",
     "updtr": "^3.1.0"
   },
