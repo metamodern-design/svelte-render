@@ -1,9 +1,9 @@
 const babelConfig = ({
-  targets = '> 1.5% in US, Firefox ESR, not ie <= 11, not dead',
+  browserslist = '> 1.5% in US, Firefox ESR, not ie <= 11, not dead',
   babelOptions = {},
   babelPlugins = [],
   babelPresets = [['@babel/preset-env', {
-    targets,
+    targets: browserslist,
     corejs: 3,
     useBuiltIns: 'usage',
   }]],

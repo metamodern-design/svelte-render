@@ -19,7 +19,7 @@ const makeBundle = (input, {
   svelteOptions = {},
   sveltePreprocess = {},
   terserOptions = {},
-  browserslistTargets,
+  browserslist,
   babelOptions,
   babelPlugins,
   babelPresets,
@@ -34,26 +34,27 @@ const makeBundle = (input, {
       generate: (ssr ? 'ssr' : 'dom'),
       preprocess: sveltePreprocess,
       dev: development,
-      hydratable: !development,
       css: (
         cssOutput
           ? (css) => { css.write(cssOutput, development); }
           : false
       ),
+      hydratable: true,
       ...svelteOptions,
     }),
     rollupInputPlugins,
     resolve({
+      browser: true,
       dedupe: ['svelte'],
     }),
     commonjs(),
     (!ssr && transpile)
-      ? babel(babelConfig(
-        browserslistTargets,
+      ? babel(babelConfig({
+        browserslist,
         babelOptions,
         babelPlugins,
         babelPresets,
-      ))
+      }))
       : [],
     (!ssr && !development)
       ? terser.terser(terserOptions)
