@@ -7,7 +7,7 @@ import mri from 'mri';
 import ora from 'ora';
 
 import svelteRender from './index.js';
-import tryCatch from './src/try-catch.js';
+import tryCatch from './try-catch.js';
 
 
 (async () => {

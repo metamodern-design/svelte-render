@@ -1,0 +1,126 @@
+import path from 'path';
+import fs from 'fs-extra';
+
+import del from 'del';
+import esmConfig from 'esm-config';
+import uid from 'uid';
+
+import makeBundle from './make-bundle.js';
+import renderHtml from './render-html.js';
+
+
+const svelteRender = async (context, {
+  src = 'src',
+  dist = 'dist',
+  entry = 'index.svelte',
+  client = 'client.js',
+  development = false,
+  noStyle = false,
+  ...options
+} = {}) => {
+  const buildId = uid(6);
+  const asyncTasks1 = []
+  let cache = false;
+
+  let cssOutput = (
+    noStyle
+      ? false
+      : path.resolve(context, dist, `style-${buildId}.css`)
+  );
+
+  if (client) {
+    asyncTasks1.push(['generateClientScript', async () => {
+      const clientInput = path.resolve(context, src, client);
+      const clientOutput = path.resolve(context, dist, `client-${buildId}.js`);
+    
+      const clientBundle = await makeBundle(clientInput, {
+        ssr: false,
+        development,
+        cssOutput,
+        ...options,
+      });
+  
+      await clientBundle.write({
+        format: 'iife',
+        file: clientOutput,
+      });
+    }]);
+
+    cssOutput = false;
+  }
+
+  if (!development) {
+    cache = path.resolve(context, `./.svelte-render/entry-${buildId}.js`);
+    
+    asyncTasks1.push(['generateEntryComponent', async () => {
+      const entryInput = path.resolve(context, src, entry);
+
+      const entryBundle = await makeBundle(entryInput, {
+        ssr: true,
+        development,
+        cssOutput,
+        ...options,
+      });
+  
+      await entryBundle.write({
+        format: 'es',
+        file: cache,
+      });
+
+      return esmConfig(cache);
+    }]);
+  }
+  
+
+  asyncTasks1.push(['readCustomTemplate', async () => {
+    const customTemplate = path.resolve(context, src, 'template.html');
+
+    if (await fs.pathExists(customTemplate)) {
+      return fs.readFile(customTemplate, 'utf8');
+    }
+  }]);
+  
+  const taskResults = await runParallel(asyncTasks1);
+  const template = taskResults.get('readCustomTemplate');
+  const component = taskResults.get('generateEntryComponent');
+
+  const asyncTasks2 = [];
+  
+  const asyncTasks2.push(['generateHtml', async () => {
+    const htmlOutput = path.resolve(context, dist, 'index.html');
+  
+    const htmlString = renderHtml({
+      buildId,
+      template,
+      component,
+      noStyle,
+      noClient: !client,
+    });
+  
+    await fs.outputFile(htmlOutput, htmlString);
+  }]);
+  
+  const asyncTasks2.push(['copyAssets', async () => {
+    const assetsDir = path.resolve(context, 'assets');
+  
+    if (await fs.pathExists(assetsDir)) {
+      await fs.copy(
+        assetsDir,
+        path.resolve(context, dist),
+      );
+    }
+  }]);
+  
+  const asyncTasks2.push(['deleteCache', async () => {
+    if (cache) {
+      await del(cache);
+    }
+  }]);
+  
+  await runParallel(asyncTasks2);
+
+  return 0;
+};
+
+
+export default svelteRender;

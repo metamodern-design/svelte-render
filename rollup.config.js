@@ -19,7 +19,7 @@ const external = [].concat(
 
 export default [
   {
-    input: 'index.js',
+    input: 'src/index.js',
     output: [
       { file: pkg.module, format: 'es' },
       { file: pkg.main, format: 'cjs' },
@@ -28,7 +28,7 @@ export default [
     external,
   },
   {
-    input: 'cli.js',
+    input: 'src/cli.js',
     output: [
       { file: pkg.cli, format: 'es' },
       { file: pkg.cliLegacy, format: 'cjs' },

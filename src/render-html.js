@@ -3,8 +3,8 @@ import defaultTemplate from './default-template.js';
 
 const renderHtml = ({
   buildId = 'bundle',
-  template = null,
-  component = null,
+  template = false,
+  component = false,
   noStyle = false,
   noClient = false,
 } = {}) => {
