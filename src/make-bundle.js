@@ -15,7 +15,7 @@ const makeBundle = (input, {
   ssr = false,
   development = false,
   transpile = !development,
-  dist = 'dist',
+  cssOutput = null,
   rollupInputOptions = {},
   rollupInputPlugins = [],
   svelteOptions = {},
@@ -38,11 +38,9 @@ const makeBundle = (input, {
       dev: development,
       hydratable: !development,
       css: (
-        ssr
-          ? false
-          : (css) => {
-            css.write(path.resolve(dist, 'global.css'), development);
-          }
+        cssOutput
+          ? (css) => { css.write(cssOutput, development); }
+          : false
       ),
       ...svelteOptions,
     }),

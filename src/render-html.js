@@ -1,13 +1,24 @@
 import defaultTemplate from './default-template.js';
 
 
-const renderHtml = (
+const renderHtml = ({
   buildId = 'bundle',
   template = defaultTemplate,
   component = null,
-) => {
-  const css = `<link rel="stylesheet" href="style-${buildId}.css">`;
-  const script = `<script src="client-${buildId}.js"></script>`;
+  noStyle = false,
+  noClient = false,
+} = {}) => {
+  const css = (
+    noStyle
+      ? ''
+      : `<link rel="stylesheet" href="style-${buildId}.css">`
+  );
+  
+  const script = (
+    noClient
+      ? ''
+      : `<script src="client-${buildId}.js"></script>`
+  );
 
   const { head, html } = (
     component
