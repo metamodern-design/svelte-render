@@ -1,5 +1,5 @@
-import commonjs from 'rollup-plugin-commonjs';
-import nodeResolve from 'rollup-plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import { preserveShebangs } from 'rollup-plugin-preserve-shebangs';
 import pkg from './package.json';
 
