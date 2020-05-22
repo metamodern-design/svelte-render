@@ -12,9 +12,9 @@ import render from '../dist/esm.js';
 const { JSDOM } = jsdom;
 
 const context = path.resolve(process.cwd(), 'test');
-const src = path.resolve(process.cwd(), 'test/fixtures');
-const dist = path.resolve(process.cwd(), 'test/client-hydrate');
-const assets = path.resolve(process.cwd(), 'test/client-hydrate-assets');
+const src = path.resolve(context, 'fixtures/src');
+const dist = path.resolve(context, 'client-hydrate');
+const assets = path.resolve(context, 'fixtures/assets');
 
 
 test.before(async (t) => {
@@ -47,7 +47,7 @@ test.before(async (t) => {
 
 
 test.after.always(async () => {
-  await del([dist, assets]);
+  await del(dist);
 });
 
 

@@ -42,7 +42,7 @@ const svelteRender = async (context, {
       format: 'iife',
       file: clientOutput,
     });
-    
+
     cssOutput = null;
   }
 

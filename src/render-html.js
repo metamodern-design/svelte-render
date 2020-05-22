@@ -3,7 +3,7 @@ import defaultTemplate from './default-template.js';
 
 const renderHtml = ({
   buildId = 'bundle',
-  template = defaultTemplate,
+  template = null,
   component = null,
   noStyle = false,
   noClient = false,
@@ -13,7 +13,7 @@ const renderHtml = ({
       ? ''
       : `<link rel="stylesheet" href="style-${buildId}.css">`
   );
-  
+
   const script = (
     noClient
       ? ''
@@ -27,7 +27,7 @@ const renderHtml = ({
   );
 
   return (
-    template
+    (template || defaultTemplate)
       .replace('%svelte:head%', head)
       .replace('%svelte:html%', html)
       .replace('%svelte:css%', css)
