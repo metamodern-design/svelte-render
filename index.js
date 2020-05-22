@@ -22,7 +22,7 @@ const svelteRender = async (context, {
   let cache = null;
 
   let cssOutput = (
-    noCss
+    noStyle
       ? null
       : path.resolve(context, dist, `style-${buildId}.css`)
   );
