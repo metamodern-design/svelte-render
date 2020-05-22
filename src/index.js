@@ -7,6 +7,7 @@ import uid from 'uid';
 
 import makeBundle from './make-bundle.js';
 import renderHtml from './render-html.js';
+import runParallel from './run-parallel.js';
 
 
 const svelteRender = async (context, {
@@ -19,7 +20,7 @@ const svelteRender = async (context, {
   ...options
 } = {}) => {
   const buildId = uid(6);
-  const asyncTasks1 = []
+  const asyncTasks1 = [];
   let cache = false;
 
   let cssOutput = (
@@ -32,14 +33,14 @@ const svelteRender = async (context, {
     asyncTasks1.push(['generateClientScript', async () => {
       const clientInput = path.resolve(context, src, client);
       const clientOutput = path.resolve(context, dist, `client-${buildId}.js`);
-    
+
       const clientBundle = await makeBundle(clientInput, {
         ssr: false,
         development,
         cssOutput,
         ...options,
       });
-  
+
       await clientBundle.write({
         format: 'iife',
         file: clientOutput,
@@ -51,7 +52,7 @@ const svelteRender = async (context, {
 
   if (!development) {
     cache = path.resolve(context, `./.svelte-render/entry-${buildId}.js`);
-    
+
     asyncTasks1.push(['generateEntryComponent', async () => {
       const entryInput = path.resolve(context, src, entry);
 
@@ -61,7 +62,7 @@ const svelteRender = async (context, {
         cssOutput,
         ...options,
       });
-  
+
       await entryBundle.write({
         format: 'es',
         file: cache,
@@ -70,7 +71,7 @@ const svelteRender = async (context, {
       return esmConfig(cache);
     }]);
   }
-  
+
 
   asyncTasks1.push(['readCustomTemplate', async () => {
     const customTemplate = path.resolve(context, src, 'template.html');
@@ -78,17 +79,19 @@ const svelteRender = async (context, {
     if (await fs.pathExists(customTemplate)) {
       return fs.readFile(customTemplate, 'utf8');
     }
+
+    return false;
   }]);
-  
+
   const taskResults = await runParallel(asyncTasks1);
   const template = taskResults.get('readCustomTemplate');
   const component = taskResults.get('generateEntryComponent');
 
   const asyncTasks2 = [];
-  
-  const asyncTasks2.push(['generateHtml', async () => {
+
+  asyncTasks2.push(['generateHtml', async () => {
     const htmlOutput = path.resolve(context, dist, 'index.html');
-  
+
     const htmlString = renderHtml({
       buildId,
       template,
@@ -96,13 +99,13 @@ const svelteRender = async (context, {
       noStyle,
       noClient: !client,
     });
-  
+
     await fs.outputFile(htmlOutput, htmlString);
   }]);
-  
-  const asyncTasks2.push(['copyAssets', async () => {
+
+  asyncTasks2.push(['copyAssets', async () => {
     const assetsDir = path.resolve(context, 'assets');
-  
+
     if (await fs.pathExists(assetsDir)) {
       await fs.copy(
         assetsDir,
@@ -110,13 +113,13 @@ const svelteRender = async (context, {
       );
     }
   }]);
-  
-  const asyncTasks2.push(['deleteCache', async () => {
+
+  asyncTasks2.push(['deleteCache', async () => {
     if (cache) {
       await del(cache);
     }
   }]);
-  
+
   await runParallel(asyncTasks2);
 
   return 0;

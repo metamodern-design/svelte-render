@@ -24,23 +24,23 @@ import tryCatch from './try-catch.js';
           ? await esmConfig(configPath)
           : {}
       );
-      
+
       const mergedOptions = { ...config, ...options };
-      
+
       console.log([].concat(
         'svelte-render',
         `  context: ${context}`,
         '  options:',
         Object.entries(mergedOptions).map(([k, v]) => `    - ${k}: ${v}`),
       ).join('\n'));
-      
+
       spinner.start();
       const exitCode = await svelteRender(context, mergedOptions);
-      
+
       if (exitCode === 0) {
         spinner.succeed('Build complete!');
       }
-      
+
       return exitCode;
     },
     (err) => {

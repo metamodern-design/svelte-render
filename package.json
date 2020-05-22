@@ -26,7 +26,7 @@
   "scripts": {
     "prebuild": "del dist/*",
     "build": "rollup -c",
-    "lint": "eslint --fix index.js src",
+    "lint": "eslint --fix src",
     "release": "np",
     "sync": "git pull && git add . && git commit -m 'automated sync' && git push",
     "test": "npm run build && ava test/*.js",
