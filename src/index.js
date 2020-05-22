@@ -23,7 +23,7 @@ const svelteRender = async (context, {
   const asyncTasks1 = [];
   let cache = false;
 
-  let cssOutput = (
+  const cssOutput = (
     noStyle
       ? false
       : path.resolve(context, dist, `style-${buildId}.css`)
@@ -46,8 +46,6 @@ const svelteRender = async (context, {
         file: clientOutput,
       });
     }]);
-
-    cssOutput = false;
   }
 
   if (!development) {
@@ -58,8 +56,8 @@ const svelteRender = async (context, {
 
       const entryBundle = await makeBundle(entryInput, {
         ssr: true,
+        cssOutput: client ? false : cssOutput,
         development,
-        cssOutput,
         ...options,
       });
 

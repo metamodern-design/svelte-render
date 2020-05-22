@@ -25,15 +25,13 @@ test.before(async (t) => {
     'utf8',
   );
   
-  const client = await fs.readFile(
-    path.resolve(dist, 'client.js'),
-    'utf8',
-  );
+  const scriptTagStart = html.indexOf('<script src="client-');
+  const fileNameEnd = html.indexOf('"></script>');
   
-  const scriptInserted = html.replace(
-    '<script src="client.js"></script>',
-    `<script src="file://${path.resolve(dist, 'client.js')}"></script>`,
-  );
+  const fileName = html.slice(scriptTagStart + 13, fileNameEnd);
+  const fullPath = path.resolve(dist, fileName);
+  
+  const scriptInserted = html.replace(fileName, `file://${fullPath}`);
   
   const dom = new JSDOM(scriptInserted, {
     runScripts: "dangerously",
