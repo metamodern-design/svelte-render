@@ -7,7 +7,6 @@ import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
 import terser from 'rollup-plugin-terser';
-import uid from 'uid';
 
 import babelConfig from './babel-config.js';
 
@@ -16,7 +15,7 @@ const makeBundle = (input, {
   ssr = false,
   development = false,
   transpile = !development,
-  assets = 'assets',
+  dist = 'dist',
   rollupInputOptions = {},
   rollupInputPlugins = [],
   svelteOptions = {},
