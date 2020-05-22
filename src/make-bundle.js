@@ -44,7 +44,6 @@ const makeBundle = (input, {
     }),
     rollupInputPlugins,
     resolve({
-      browser: !ssr,
       dedupe: ['svelte'],
     }),
     commonjs(),
