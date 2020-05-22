@@ -37,7 +37,7 @@ import tryCatch from './src/try-catch.js';
       spinner.start();
       const exitCode = await svelteRender(context, mergedOptions);
       
-      if (exitCode) {
+      if (exitCode === 0) {
         spinner.succeed('Build complete!');
       }
       

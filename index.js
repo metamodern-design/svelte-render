@@ -17,25 +17,33 @@ const svelteRender = async (context, {
   development = false,
   ...options
 } = {}) => {
-  const cache = path.resolve(context, `./.svelte-render/entry-${uid()}}.js`);
+  const buildId = uid(8);
+  let cache = null;
   
-  const generateHtml = async () => {
-    const [component, template] = await Promise.all([
-      esmConfig(cache),
-      fs.readFile(path.resolve(context, src, 'template.html'), 'utf8'),
-    ]);
-
-    await fs.outputFile(
-      path.resolve(context, dist, 'index.html'),
-      renderHtml(component, template),
+  if (client) {
+    const clientBundle = await makeBundle(
+      path.resolve(context, src, client),
+      { ssr: false, development, ...options },
     );
-    
-    await del(cache);
-    
-    return 1;
-  };
 
-  if (!client) {
+    await clientBundle.write({
+      format: 'iife',
+      file: path.resolve(context, dist, `client-${buildId}.js`),
+    });
+  }
+  
+  let template = null;
+  let component = null;
+
+  const customTemplate = path.resolve(context, src, 'template.html');
+  
+  if (fs.pathExists(customTemplate)) {
+    template = await fs.readFile(customTemplate, 'utf8');
+  }
+  
+  if (!development) {
+    cache = path.resolve(context, `./.svelte-render/entry-${buildId}.js`);
+
     const entryBundle = await makeBundle(
       path.resolve(context, src, entry),
       { ssr: true, development, ...options },
@@ -46,46 +54,28 @@ const svelteRender = async (context, {
       file: cache,
     });
     
-    return generateHtml();
-  } 
-  
-  if (development) {
-    const clientBundle = await makeBundle(
-      path.resolve(context, src, client),
-      { ssr: false, development, ...options },
-    );
+    component = await esmConfig(cache);
+  }
 
-    await clientBundle.write({
-      format: 'iife',
-      file: path.resolve(context, dist, client),
-    });
-    
-    return 1;
+  await fs.outputFile(
+    path.resolve(context, dist, 'index.html'),
+    renderHtml(buildId, template, component),
+  );
+  
+  if (cache) {
+    await del(cache);
+  }
+
+  const assetsDir = path.resolve(context, 'assets');
+  
+  if (fs.pathExists(assetsDir)) {
+    await fs.copy(
+      assetsDir,
+      path.resolve(context, dist),
+    );
   }
   
-  const [entryBundle, clientBundle] = await Promise.all([
-    makeBundle(
-      path.resolve(context, src, entry),
-      { ssr: true, development, ...options },
-    ),
-    makeBundle(
-      path.resolve(context, src, client),
-      { ssr: false, development, ...options },
-    ),
-  ]);
-
-  await Promise.all([
-    entryBundle.write({
-      format: 'es',
-      file: cache,
-    }),
-    clientBundle.write({
-      format: 'iife',
-      file: path.resolve(context, dist, client),
-    }),
-  ]);
-
-  return generateHtml();
+  return 0;
 };
 
 

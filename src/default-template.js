@@ -1,4 +1,4 @@
-<!doctype html>
+const defaultTemplate = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -15,3 +15,7 @@
     %svelte:script%
   </body>
 </html>
+`;
+
+
+export default defaultTemplate;
