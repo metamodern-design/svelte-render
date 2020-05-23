@@ -12,8 +12,8 @@ const { JSDOM } = jsdom;
 
 const context = path.resolve(process.cwd(), 'test');
 const src = path.resolve(context, 'fixtures/src');
-const dist = path.resolve(context, 'ssr-only');
 const assets = path.resolve(context, 'fixtures/assets');
+const dist = path.resolve(context, 'ssr-only');
 
 
 test.before(async (t) => {
@@ -37,9 +37,10 @@ test.after.always(async () => {
 
 test('SSR loads with hello world', async (t) => {
   const { ssr } = t.context;
+  const hello = ssr.getElementById('hello');
  
   t.is(
-    ssr.getElementById('hello').textContent.trim(),
+    hello.textContent.trim(),
     'Hello, World!',
   );
 });
@@ -47,9 +48,12 @@ test('SSR loads with hello world', async (t) => {
 
 test('SSR loads with default message parameter', async (t) => {
   const { ssr } = t.context;
+  const message = ssr.getElementById('message');
+  
+  t.truthy(message);
   
   t.is(
-    ssr.getElementById('message').textContent.trim(),
+    message.textContent.trim(),
     'Have a nice day!',
   );
 });
@@ -57,9 +61,16 @@ test('SSR loads with default message parameter', async (t) => {
 
 test('SSR loads with default date parameter', async (t) => {
   const { ssr } = t.context;
+  const time = ssr.getElementById('time');
+  
+  t.truthy(time);
   
   t.is(
-    ssr.getElementById('time').textContent.trim(),
+    time.textContent.trim(),
     'The time is now 00:00:00 on 01/01/00.',
   );
+});
+
+test('Assets copied to dist', async (t) => {
+  t.true(await fs.pathExists(path.resolve(dist, 'something.txt')));
 });

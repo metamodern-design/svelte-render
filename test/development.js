@@ -12,14 +12,14 @@ import render from '../dist/esm.js';
 const { JSDOM } = jsdom;
 
 const context = path.resolve(process.cwd(), 'test');
-const src = path.resolve(context, 'fixtures/src');
 const assets = path.resolve(context, 'fixtures/assets');
-const dist = path.resolve(context, 'client-hydrate');
+const src = path.resolve(context, 'fixtures/src');
+const dist = path.resolve(context, 'development');
 
 
 
 test.before(async (t) => {
-  await render(context, { src, dist, assets });
+  await render(context, { src, dist, assets, development: true });
 
   const html = await fs.readFile(
     path.resolve(dist, 'index.html'),
@@ -50,7 +50,7 @@ test.after.always(async () => {
 });
 
 
-test('SSR loads with hello world', async (t) => {
+test('Client generates DOM with hello world', async (t) => {
   const { hydrated } = t.context;
   const hello = hydrated.getElementById('hello');
   
@@ -63,7 +63,7 @@ test('SSR loads with hello world', async (t) => {
 });
 
 
-test('Client hydrates with assigned message prop', async (t) => {
+test('Client generates DOM with assigned message prop', async (t) => {
   const { hydrated } = t.context;
   const message = hydrated.getElementById('message');
   
@@ -76,7 +76,7 @@ test('Client hydrates with assigned message prop', async (t) => {
 });
 
 
-test('Client hydrates with current datetime', async (t) => {
+test('Client generates DOM with current datetime', async (t) => {
   const { hydrated } = t.context;
   const time = hydrated.getElementById('time');
   
