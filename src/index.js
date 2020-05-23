@@ -102,7 +102,7 @@ const svelteRender = async (context, {
   }]);
 
   asyncTasks2.push(['copyAssets', async () => {
-    const assetsDir = path.resolve(context, 'assets');
+    const assetsDir = path.resolve(context, assets)
 
     if (await fs.pathExists(assetsDir)) {
       await fs.copy(

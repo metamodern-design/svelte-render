@@ -71,11 +71,7 @@ test('SSR loads with default date parameter', (t) => {
   );
 });
 
+
 test('Assets copied to dist', async (t) => {
-  const expectedPath = path.resolve(dist, 'something.txt');
-  console.log(expectedPath);
-  const exists = await fs.pathExists(expectedPath);
-  console.log(exists);
-  
-  t.true(exists);
+  t.true(await fs.pathExists(path.resolve(dist, 'something.txt')));
 });
