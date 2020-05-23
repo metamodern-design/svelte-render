@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs-extra';
 
 import del from 'del';
-import esmConfig from 'esm-config';
 import uid from 'uid';
 
 import makeBundle from './make-bundle.js';
@@ -67,7 +66,7 @@ const svelteRender = async (context, {
         file: cache,
       });
 
-      return esmConfig(cache);
+      return (await import(cache)).default;
     }]);
   }
 
