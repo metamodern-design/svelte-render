@@ -12,6 +12,7 @@ import runParallel from './run-parallel.js';
 
 const svelteRender = async (context, {
   src = 'src',
+  assets = 'assets',
   dist = 'dist',
   entry = 'index.svelte',
   client = 'client.js',
