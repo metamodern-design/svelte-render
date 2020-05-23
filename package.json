@@ -1,6 +1,6 @@
 {
   "name": "@metamodern/svelte-render",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Render Svelte files for static hosting",
   "author": "Daniel C. Narey <os@metamodern.design>",
   "license": "ISC",
