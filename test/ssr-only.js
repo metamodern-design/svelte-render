@@ -35,7 +35,7 @@ test.after.always(async () => {
 });
 
 
-test('SSR loads with hello world', async (t) => {
+test('SSR loads with hello world', (t) => {
   const { ssr } = t.context;
   const hello = ssr.getElementById('hello');
  
@@ -46,7 +46,7 @@ test('SSR loads with hello world', async (t) => {
 });
 
 
-test('SSR loads with default message parameter', async (t) => {
+test('SSR loads with default message parameter', (t) => {
   const { ssr } = t.context;
   const message = ssr.getElementById('message');
   
@@ -59,7 +59,7 @@ test('SSR loads with default message parameter', async (t) => {
 });
 
 
-test('SSR loads with default date parameter', async (t) => {
+test('SSR loads with default date parameter', (t) => {
   const { ssr } = t.context;
   const time = ssr.getElementById('time');
   
@@ -72,5 +72,10 @@ test('SSR loads with default date parameter', async (t) => {
 });
 
 test('Assets copied to dist', async (t) => {
-  t.true(await fs.pathExists(path.resolve(dist, 'something.txt')));
+  const expectedPath = path.resolve(dist, 'something.txt');
+  console.log(expectedPath);
+  const exists = fs.pathExists(expectedPath);
+  console.log(exists);
+  
+  t.true(exists);
 });
