@@ -1,7 +1,7 @@
 {
   "name": "@metamodern/svelte-render",
   "version": "1.0.1",
-  "description": "Render Svelte files for static hosting",
+  "description": "Like Sapper, but for Jamstack (serverless) apps",
   "author": "Daniel C. Narey <os@metamodern.design>",
   "license": "ISC",
   "repository": {
@@ -78,9 +78,12 @@
     "ssr",
     "hydrate",
     "hydration",
-    "JAMstack",
+    "Jamstack",
     "static",
-    "Netlify"
+    "serverless",
+    "Netlify",
+    "Zeit",
+    "Vercel"
   ],
   "ava": {
     "nodeArguments": [

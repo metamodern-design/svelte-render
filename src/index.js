@@ -17,6 +17,9 @@ const svelteRender = async (context, {
   client = 'client.js',
   development = false,
   noStyle = false,
+  before,
+  onRender,
+  after,
   ...options
 } = {}) => {
   const buildId = uid(6);
@@ -28,6 +31,10 @@ const svelteRender = async (context, {
       ? false
       : path.resolve(context, dist, `style-${buildId}.css`)
   );
+  
+  if (before) {
+    await before();
+  }
 
   if (client) {
     asyncTasks1.push(['generateClientScript', async () => {
@@ -111,14 +118,24 @@ const svelteRender = async (context, {
       );
     }
   }]);
-
-  asyncTasks2.push(['deleteCache', async () => {
-    if (cache) {
+  
+  if (onRender) {
+    asyncTasks2.push(['onRender', async () => {
+      await onRender();
+    }]);
+  }
+  
+  if (cache) {
+    asyncTasks2.push(['deleteCache', async () => {
       await del(cache);
-    }
-  }]);
+    }]);
+  }
 
   await runParallel(asyncTasks2);
+  
+  if (after) {
+    await after();
+  }
 
   return 0;
 };
