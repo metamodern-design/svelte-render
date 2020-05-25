@@ -22,6 +22,8 @@ const svelteRender = async (context, {
   after,
   ...options
 } = {}) => {
+  const args = { src, assets, dist, entry, client, development, noStyle, ...options };
+  
   const buildId = uid(6);
   const asyncTasks1 = [];
   let cache = false;
@@ -33,7 +35,7 @@ const svelteRender = async (context, {
   );
   
   if (before) {
-    await before();
+    await before(context, args);
   }
 
   if (client) {
@@ -121,7 +123,7 @@ const svelteRender = async (context, {
   
   if (onRender) {
     asyncTasks2.push(['onRender', async () => {
-      await onRender();
+      await onRender(context, args);
     }]);
   }
   
@@ -134,7 +136,7 @@ const svelteRender = async (context, {
   await runParallel(asyncTasks2);
   
   if (after) {
-    await after();
+    await after(context, args);
   }
 
   return 0;
