@@ -1,5 +1,4 @@
-#!/bin/sh 
-":" //# comment; exec /usr/bin/env node --experimental-modules --no-warnings "$0" "$@" 
+#!/usr/bin/env node --experimental-modules
 
 import path from 'path';
 import fs from 'fs-extra';
