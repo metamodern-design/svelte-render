@@ -32,14 +32,13 @@ export default [
     output: [
       { file: pkg.cli, format: 'es' },
     ],
-    plugins: [
+    plugins: [].concat(
+      plugins,
       preserveShebangs(),
-      replace(
-        '#!/usr/bin/env node',
-        '#!/bin/sh\n":" //# comment; exec /usr/bin/env node --experimental-modules --no-warnings "$0" "$@"',
-      ),
-      ...plugins,
-    ],
+      replace({
+        '#!/usr/bin/env node': '#!/bin/sh\n":" //# comment; exec /usr/bin/env node --experimental-modules --no-warnings "$0" "$@"',
+      }),
+    ),
     external,
   },
 ];
