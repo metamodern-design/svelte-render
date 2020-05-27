@@ -84,7 +84,8 @@
   ],
   "ava": {
     "nodeArguments": [
-      "--experimental-modules"
+      "--experimental-modules",
+      "--no-warnings"
     ]
   }
 }
