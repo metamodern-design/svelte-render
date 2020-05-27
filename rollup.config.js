@@ -22,7 +22,6 @@ export default [
     input: 'src/index.js',
     output: [
       { file: pkg.module, format: 'es' },
-      { file: pkg.main, format: 'cjs' },
     ],
     plugins,
     external,
@@ -31,7 +30,6 @@ export default [
     input: 'src/cli.js',
     output: [
       { file: pkg.cli, format: 'es' },
-      { file: pkg.cliLegacy, format: 'cjs' },
     ],
     plugins: [
       preserveShebangs(),

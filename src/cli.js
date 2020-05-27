@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-modules --no-warnings
 
 import path from 'path';
 import fs from 'fs-extra';
