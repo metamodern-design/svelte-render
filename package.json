@@ -12,7 +12,7 @@
   "module": "./dist/index.js",
   "cli": "dist/cli.js",
   "bin": {
-    "svelte-render": "dist/cli.js",
+    "svelte-render": "dist/cli.js"
   },
   "exports": {
     ".": "./dist/index.js"
