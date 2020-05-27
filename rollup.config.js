@@ -1,6 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import { preserveShebangs } from 'rollup-plugin-preserve-shebangs';
+import replace from '@rollup/plugin-replace';
 import pkg from './package.json';
 
 
@@ -33,6 +34,10 @@ export default [
     ],
     plugins: [
       preserveShebangs(),
+      replace(
+        '#!/usr/bin/env node',
+        '#!/bin/sh\n":" //# comment; exec /usr/bin/env node --experimental-modules --no-warnings "$0" "$@"',
+      ),
       ...plugins,
     ],
     external,
