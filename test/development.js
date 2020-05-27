@@ -6,7 +6,7 @@ import del from 'del';
 import fs from 'fs-extra';
 import jsdom from 'jsdom';
 
-import render from '../dist/esm.mjs';
+import render from '../dist/esm.js';
 
 
 const { JSDOM } = jsdom;
