@@ -10,7 +10,7 @@
   },
   "type": "module",
   "main": "./dist/main.cjs",
-  "module": "./dist/esm.js",
+  "module": "./dist/esm.mjs",
   "cli": "dist/cli.js",
   "cliLegacy": "dist/cli-legacy.cjs",
   "bin": {
