@@ -10,6 +10,7 @@ const babelConfig = ({
 } = {}) => ({
   plugins: babelPlugins,
   presets: babelPresets,
+  babelHelpers: 'bundled',
   ...babelOptions,
   exclude: [].concat(/\/core-js\//, babelOptions.exclude || []),
 });

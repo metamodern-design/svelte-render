@@ -1,10 +1,10 @@
 import { rollup } from 'rollup';
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
-import resolve from '@rollup/plugin-node-resolve';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
-import terser from 'rollup-plugin-terser';
+import { terser } from 'rollup-plugin-terser';
 
 import babelConfig from './babel-config.js';
 
@@ -43,13 +43,13 @@ const makeBundle = (input, {
       ...svelteOptions,
     }),
     rollupInputPlugins,
-    resolve({
+    nodeResolve.nodeResolve({
       browser: true,
       dedupe: ['svelte'],
     }),
     commonjs(),
     (!ssr && transpile)
-      ? babel(babelConfig({
+      ? babel.babel(babelConfig({
         browserslist,
         babelOptions,
         babelPlugins,
@@ -57,7 +57,7 @@ const makeBundle = (input, {
       }))
       : [],
     (!ssr && !development)
-      ? terser.terser(terserOptions)
+      ? terser(terserOptions)
       : [],
   ),
   ...rollupInputOptions,
