@@ -71,6 +71,7 @@
   },
   "keywords": [
     "svelte",
+    "sapper",
     "render",
     "ssr",
     "hydrate",

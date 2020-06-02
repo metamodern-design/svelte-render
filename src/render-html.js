@@ -5,11 +5,11 @@ const renderHtml = ({
   buildId = 'bundle',
   template = false,
   component = false,
-  noStyle = false,
   noClient = false,
+  noCss = false,
 } = {}) => {
   const css = (
-    noStyle
+    noCss
       ? ''
       : `<link rel="stylesheet" href="style-${buildId}.css">`
   );

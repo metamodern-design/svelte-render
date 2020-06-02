@@ -16,20 +16,20 @@ const svelteRender = async (context, {
   entry = 'index.svelte',
   client = 'client.js',
   development = false,
-  noStyle = false,
+  noCss = false,
   before,
   onRender,
   after,
   ...options
 } = {}) => {
-  const args = { src, assets, dist, entry, client, development, noStyle, ...options };
+  const args = { src, assets, dist, entry, client, development, noCss, ...options };
   
   const buildId = uid(6);
   const asyncTasks1 = [];
   let cache = false;
 
   const cssOutput = (
-    noStyle
+    noCss
       ? false
       : path.resolve(context, dist, `style-${buildId}.css`)
   );
@@ -103,7 +103,7 @@ const svelteRender = async (context, {
       buildId,
       template,
       component,
-      noStyle,
+      noCss,
       noClient: !client,
     });
 

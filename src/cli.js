@@ -16,7 +16,11 @@ import tryCatch from './try-catch.js';
     async () => {
       const { _, ...options } = mri(process.argv.slice(2));
       const context = path.resolve(process.cwd(), _[0] || '');
-      const configPath = path.resolve(context, 'render.config.js');
+
+      const configPath = path.resolve(
+        context,
+        options.configPath || 'render.config.js',
+      );
 
       const config = (
         await fs.pathExists(configPath)
@@ -24,7 +28,7 @@ import tryCatch from './try-catch.js';
           : {}
       );
 
-      const mergedOptions = { ...config, ...options };
+      const mergedOptions = { ...config(options), ...options };
 
       console.log([].concat(
         'svelte-render',

@@ -33,8 +33,8 @@ export default [
       { file: pkg.cli, format: 'es' },
     ],
     plugins: [].concat(
-	  preserveShebangs(),
-	  plugins,
+      preserveShebangs(),
+      plugins,
       replace({
         '#!/usr/bin/env node': '#!/bin/sh\n":" //# comment; exec /usr/bin/env node --experimental-modules --no-warnings "$0" "$@"\n',
         delimiters: ['', '']

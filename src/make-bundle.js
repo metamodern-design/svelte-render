@@ -19,10 +19,7 @@ const makeBundle = (input, {
   svelteOptions = {},
   sveltePreprocess = {},
   terserOptions = {},
-  browserslist,
-  babelOptions,
-  babelPlugins,
-  babelPresets,
+  ...babelConfigOptions,
 } = {}) => rollup({
   input,
   plugins: [].concat(
@@ -49,12 +46,7 @@ const makeBundle = (input, {
     }),
     commonjs(),
     (!ssr && transpile)
-      ? babel.babel(babelConfig({
-        browserslist,
-        babelOptions,
-        babelPlugins,
-        babelPresets,
-      }))
+      ? babel.babel(babelConfig(babelConfigOptions))
       : [],
     (!ssr && !development)
       ? terser(terserOptions)
