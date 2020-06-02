@@ -22,8 +22,10 @@ const svelteRender = async (context, {
   after,
   ...options
 } = {}) => {
-  const args = { src, assets, dist, entry, client, development, noCss, ...options };
-  
+  const args = {
+    src, assets, dist, entry, client, development, noCss, ...options,
+  };
+
   const buildId = uid(6);
   const asyncTasks1 = [];
   let cache = false;
@@ -33,7 +35,7 @@ const svelteRender = async (context, {
       ? false
       : path.resolve(context, dist, `style-${buildId}.css`)
   );
-  
+
   if (before) {
     await before(context, args);
   }
@@ -120,13 +122,13 @@ const svelteRender = async (context, {
       );
     }
   }]);
-  
+
   if (onRender) {
     asyncTasks2.push(['onRender', async () => {
       await onRender(context, args);
     }]);
   }
-  
+
   if (cache) {
     asyncTasks2.push(['deleteCache', async () => {
       await del(cache);
@@ -134,7 +136,7 @@ const svelteRender = async (context, {
   }
 
   await runParallel(asyncTasks2);
-  
+
   if (after) {
     await after(context, args);
   }

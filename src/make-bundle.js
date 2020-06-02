@@ -19,7 +19,7 @@ const makeBundle = (input, {
   svelteOptions = {},
   sveltePreprocess = {},
   terserOptions = {},
-  ...babelConfigOptions,
+  ...babelConfigOptions
 } = {}) => rollup({
   input,
   plugins: [].concat(
