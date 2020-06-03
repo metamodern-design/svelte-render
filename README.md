@@ -147,4 +147,5 @@ Render hooks are functions to execute in tandem with the main rendering function
 
 ## License
 © 2020 Daniel C. Narey
+
 ISC License
