@@ -30,21 +30,21 @@ The CLI script is released as an ES module only. Minimum Node.js version is 12 (
 ```sh
 npx svelte-render [context] [--key=value]
 
-// default to process.cwd() as context
+# default to process.cwd() as context
 cd project
 npx svelte-render [--key=value]
 
-// skip production optimizations
+# skip production optimizations
 npx svelte-render --development
 
-// just output HTML from the entry file
+# just output HTML from the entry file
 npx svelte-render --client=false --noCss
 
-// specify a custom directory structure
+# specify a custom directory structure
 npx svelte-render --src=. --dist=public
 
-// specify the path to your config file
-// ** if not at ./render.config.js **
+# specify the path to your config file
+# ** if not at ./render.config.js **
 npx svelte-render --configFile=./config/svelte-render.js
 
 ```
@@ -143,3 +143,8 @@ Render hooks are functions to execute in tandem with the main rendering function
 - __before__: function to invoke and await before rendering
 - __onRender__: function to invoke and await in parallel with the last set of rendering functions
 - __after__: function to invoke and await after rendering
+
+
+## License
+© 2020 Daniel C. Narey
+ISC License
