@@ -19,7 +19,7 @@ import tryCatch from './try-catch.js';
 
       const configPath = path.resolve(
         context,
-        options.configPath || 'render.config.js',
+        options.configFile || 'render.config.js',
       );
 
       const config = (

@@ -1,7 +1,7 @@
 {
   "name": "@metamodern/svelte-render",
   "version": "1.0.7",
-  "description": "Like Sapper, but for Jamstack (serverless) apps",
+  "description": "A \"Sapper-lite\" specifically for Jamstack (serverless) apps",
   "author": "Daniel C. Narey <os@metamodern.design>",
   "license": "ISC",
   "repository": {
