@@ -26,7 +26,7 @@ test.before(async (t) => {
     'utf8',
   );
   
-  const scriptTagStart = html.indexOf('<script src="client-');
+  const scriptTagStart = html.indexOf('<script src="/client-');
   const fileNameEnd = html.indexOf('"></script>');
   
   const fileName = html.slice(scriptTagStart + 13, fileNameEnd);
