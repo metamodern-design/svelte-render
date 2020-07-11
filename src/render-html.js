@@ -11,13 +11,13 @@ const renderHtml = ({
   const css = (
     noCss
       ? ''
-      : `<link rel="stylesheet" href="style-${buildId}.css">`
+      : `<link rel="stylesheet" href="/style-${buildId}.css">`
   );
 
   const script = (
     noClient
       ? ''
-      : `<script src="client-${buildId}.js"></script>`
+      : `<script src="/client-${buildId}.js"></script>`
   );
 
   const { head, html } = (
