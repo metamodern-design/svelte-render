@@ -29,7 +29,7 @@ test.before(async (t) => {
   const scriptTagStart = html.indexOf('<script src="/client-');
   const fileNameEnd = html.indexOf('"></script>');
   
-  const fileName = html.slice(scriptTagStart + 13, fileNameEnd);
+  const fileName = html.slice(scriptTagStart + 14, fileNameEnd);
   const fullPath = path.resolve(dist, fileName);
   
   const scriptInserted = html.replace(fileName, `file://${fullPath}`);
