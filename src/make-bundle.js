@@ -2,7 +2,7 @@ import { rollup } from 'rollup';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
-import nodeResolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 
@@ -40,7 +40,7 @@ const makeBundle = (input, {
       ...svelteOptions,
     }),
     rollupInputPlugins,
-    nodeResolve.nodeResolve({
+    nodeResolve({
       browser: true,
       dedupe: ['svelte'],
     }),
