@@ -1,6 +1,6 @@
 import { access, rmdir } from 'fs/promises';
-import path from 'path';
-import util from 'util';
+import { resolve } from 'path';
+import { promisify } from 'util';
 
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
@@ -11,18 +11,18 @@ import render from '../lib/index.js';
 
 const { JSDOM } = jsdom;
 
-const context = path.resolve(process.cwd(), 'test');
-const src = path.resolve(context, 'fixtures/src');
-const assets = path.resolve(context, 'fixtures/assets');
-const dist = path.resolve(context, 'client-hydrate');
+const context = resolve(process.cwd(), 'test');
+const src = resolve(context, 'fixtures/src');
+const assets = resolve(context, 'fixtures/assets');
+const dist = resolve(context, 'client-hydrate');
 
 const test = suite('Client Hydrate');
 
 test.before(async (env) => {
   await render(context, { src, dist, assets });
 
-  const html = await fs.readFile(
-    path.resolve(dist, 'index.html'),
+  const html = await readFile(
+    resolve(dist, 'index.html'),
     'utf8',
   );
   
@@ -30,7 +30,7 @@ test.before(async (env) => {
   const fileNameEnd = html.indexOf('"></script>');
   
   const fileName = html.slice(scriptTagStart + 14, fileNameEnd);
-  const fullPath = path.resolve(dist, fileName);
+  const fullPath = resolve(dist, fileName);
   
   const scriptInserted = html.replace(`/${fileName}`, `file://${fullPath}`);
   
@@ -95,7 +95,7 @@ test('Client hydrates with current datetime', async (env) => {
 
 
 test('Assets copied to dist', async () => {
-  assert.not.throws(await access(path.resolve(dist, 'something.txt')));
+  assert.not.throws(await access(resolve(dist, 'something.txt')));
 });
 
 

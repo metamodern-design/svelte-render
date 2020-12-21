@@ -1,6 +1,6 @@
-import { access, rmdir } from 'fs/promises';
-import path from 'path';
-import util from 'util';
+import { access, readFile, rmdir } from 'fs/promises';
+import { resolve } from 'path';
+import { promisify } from 'util';
 
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
@@ -11,10 +11,10 @@ import render from '../lib/index.js';
 
 const { JSDOM } = jsdom;
 
-const context = path.resolve(process.cwd(), 'test');
-const assets = path.resolve(context, 'fixtures/assets');
-const src = path.resolve(context, 'fixtures/src');
-const dist = path.resolve(context, 'development');
+const context = resolve(process.cwd(), 'test');
+const assets = resolve(context, 'fixtures/assets');
+const src = resolve(context, 'fixtures/src');
+const dist = resolve(context, 'development');
 
 const test = suite('Development');
 
@@ -22,8 +22,8 @@ const test = suite('Development');
 test.before(async (env) => {
   await render(context, { src, dist, assets, development: true });
 
-  const html = await fs.readFile(
-    path.resolve(dist, 'index.html'),
+  const html = await readFile(
+    resolve(dist, 'index.html'),
     'utf8',
   );
   
@@ -31,7 +31,7 @@ test.before(async (env) => {
   const fileNameEnd = html.indexOf('"></script>');
   
   const fileName = html.slice(scriptTagStart + 14, fileNameEnd);
-  const fullPath = path.resolve(dist, fileName);
+  const fullPath = resolve(dist, fileName);
   
   const scriptInserted = html.replace(`/${fileName}`, `file://${fullPath}`);
   
@@ -40,7 +40,7 @@ test.before(async (env) => {
     resources: "usable",
   });
   
-  await util.promisify(setTimeout)(3000);
+  await promisify(setTimeout)(3000);
   
   env.hydrated = dom.window.document;
 });
@@ -96,7 +96,7 @@ test('Client generates DOM with current datetime', async (env) => {
 
 
 test('Assets copied to dist', async () => {
-  assert.not.throws(await access(path.resolve(dist, 'something.txt')));
+  assert.not.throws(await access(resolve(dist, 'something.txt')));
 });
 
 export default test;
