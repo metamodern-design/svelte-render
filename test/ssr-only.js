@@ -1,9 +1,8 @@
+import { access, rmdir } from 'fs/promises';
 import path from 'path';
 
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
-import del from 'del';
-import fs from 'fs-extra';
 import jsdom from 'jsdom';
 
 import render from '../lib/index.js';
@@ -33,7 +32,7 @@ test.before(async (env) => {
 
 
 test.after.each(async () => {
-  await del(dist);
+  await rmdir(dist, { recursive: true });
 });
 
 
@@ -74,8 +73,8 @@ test('SSR loads with default date parameter', (env) => {
 });
 
 
-test('Assets copied to dist', async (env) => {
-  assert7.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
+test('Assets copied to dist', async () => {
+  assert.not.throws(await access(path.resolve(dist, 'something.txt')));
 });
 
 export default test;
