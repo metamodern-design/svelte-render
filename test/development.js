@@ -47,7 +47,7 @@ test.before(async (t) => {
 });
 
 
-test.after.always(async () => {
+test.after.each(async () => {
   await del(dist);
 });
 
