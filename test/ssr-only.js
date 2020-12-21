@@ -36,6 +36,11 @@ test.after.each(async () => {
 });
 
 
+test('Always passes', async () => {
+  assert.ok(1);
+});
+
+
 test('SSR loads with hello world', (env) => {
   const { ssr } = env;
   const hello = ssr.getElementById('hello');

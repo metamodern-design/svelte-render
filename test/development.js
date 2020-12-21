@@ -51,6 +51,11 @@ test.after.each(async () => {
 });
 
 
+test('Always passes', async () => {
+  assert.ok(1);
+});
+
+
 test('Client generates DOM with hello world', async (env) => {
   const { hydrated } = env;
   const hello = hydrated.getElementById('hello');
