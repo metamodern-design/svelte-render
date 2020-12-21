@@ -90,7 +90,7 @@ test('Client hydrates with current datetime', async (env) => {
 });
 
 
-test('Assets copied to dist', async (env)) => {
+test('Assets copied to dist', async (env) => {
   assert.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
 });
 

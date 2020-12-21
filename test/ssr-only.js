@@ -74,7 +74,7 @@ test('SSR loads with default date parameter', (env) => {
 });
 
 
-test('Assets copied to dist', async (env)) => {
+test('Assets copied to dist', async (env) => {
   assert7.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
 });
 
