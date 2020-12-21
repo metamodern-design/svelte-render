@@ -45,7 +45,7 @@ test.before(async (env) => {
 });
 
 
-test.after.each(async () => {
+test.after(async () => {
   await rmdir(dist, { recursive: true });
 });
 
