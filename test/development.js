@@ -1,4 +1,4 @@
-import { existsSync, rmSync } from 'fs';
+import { existsSync, rmdirSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 import { promisify } from 'util';
@@ -48,7 +48,7 @@ test.before(async (env) => {
 
 
 test.after(() => {
-  rmSync(dist, { recursive: true });
+  rmdirSync(dist, { recursive: true });
 });
 
 

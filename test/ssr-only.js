@@ -1,4 +1,4 @@
-import { existsSync, rmSync } from 'fs';
+import { existsSync, rmdirSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 
@@ -32,12 +32,12 @@ test.before(async (env) => {
 });
 
 
-test.after(async () => {
-  rmSync(dist, { recursive: true });
+test.after(() => {
+  rmdirSync(dist, { recursive: true });
 });
 
 
-test('Always passes', async () => {
+test('Always passes', () => {
   assert.ok(1);
 });
 
