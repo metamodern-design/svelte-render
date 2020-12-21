@@ -18,7 +18,7 @@ const dist = path.resolve(context, 'ssr-only');
 
 const test = suite('SSR Only');
 
-test.before(async (t) => {
+test.before(async (env) => {
   await render(context, { src, dist, assets, client: false });
   
   const html = await fs.readFile(
@@ -28,7 +28,7 @@ test.before(async (t) => {
   
   const dom = new JSDOM(html);
   
-  t.context.ssr = dom.window.document;
+  env.ssr = dom.window.document;
 });
 
 
@@ -37,45 +37,45 @@ test.after.each(async () => {
 });
 
 
-test('SSR loads with hello world', (t) => {
-  const { ssr } = t.context;
+test('SSR loads with hello world', (env) => {
+  const { ssr } = env;
   const hello = ssr.getElementById('hello');
  
-  t.is(
+  assert.is(
     hello.textContent.trim(),
     'Hello, World!',
   );
 });
 
 
-test('SSR loads with default message parameter', (t) => {
-  const { ssr } = t.context;
+test('SSR loads with default message parameter', (env) => {
+  const { ssr } = env;
   const message = ssr.getElementById('message');
   
-  t.ok(message);
+  assert.ok(message);
   
-  t.is(
+  assert.is(
     message.textContent.trim(),
     'Have a nice day!',
   );
 });
 
 
-test('SSR loads with default date parameter', (t) => {
-  const { ssr } = t.context;
+test('SSR loads with default date parameter', (env) => {
+  const { ssr } = env;
   const time = ssr.getElementById('time');
   
-  t.ok(time);
+  assert.ok(time);
   
-  t.is(
+  assert.is(
     time.textContent.trim(),
     'The time is now 00:00:00 on 01/01/00.',
   );
 });
 
 
-test('Assets copied to dist', async (t) => {
-  t.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
+test('Assets copied to dist', async (env)) => {
+  assert7.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
 });
 
 export default test;

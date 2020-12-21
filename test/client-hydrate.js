@@ -19,7 +19,7 @@ const dist = path.resolve(context, 'client-hydrate');
 
 const test = suite('Client Hydrate');
 
-test.before(async (t) => {
+test.before(async (env) => {
   await render(context, { src, dist, assets });
 
   const html = await fs.readFile(
@@ -42,7 +42,7 @@ test.before(async (t) => {
   
   await util.promisify(setTimeout)(3000);
   
-  t.context.hydrated = dom.window.document;
+  env.hydrated = dom.window.document;
 });
 
 
@@ -51,47 +51,47 @@ test.after.each(async () => {
 });
 
 
-test('SSR loads with hello world', async (t) => {
-  const { hydrated } = t.context;
+test('SSR loads with hello world', async (env) => {
+  const { hydrated } = env;
   const hello = hydrated.getElementById('hello');
   
-  t.ok(hello);
+  assert.ok(hello);
  
-  t.is(
+  assert.is(
     hello.textContent.trim(),
     'Hello, World!',
   );
 });
 
 
-test('Client hydrates with assigned message prop', async (t) => {
-  const { hydrated } = t.context;
+test('Client hydrates with assigned message prop', async (env) => {
+  const { hydrated } = env;
   const message = hydrated.getElementById('message');
   
-  t.ok(message);
+  assert.ok(message);
   
-  t.is(
+  assert.is(
     message.textContent.trim(),
     'Have a lovely day!',
   );
 });
 
 
-test('Client hydrates with current datetime', async (t) => {
-  const { hydrated } = t.context;
+test('Client hydrates with current datetime', async (env) => {
+  const { hydrated } = env;
   const time = hydrated.getElementById('time');
   
-  t.ok(time);
+  assert.ok(time);
   
-  t.is.not(
+  assert.is.not(
     time.textContent.trim(),
     'The time is now 00:00:00 on 01/01/00.',
   );
 });
 
 
-test('Assets copied to dist', async (t) => {
-  t.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
+test('Assets copied to dist', async (env)) => {
+  assert.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
 });
 
 
