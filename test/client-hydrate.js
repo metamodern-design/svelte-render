@@ -40,7 +40,7 @@ test.before(async (env) => {
     resources: "usable",
   });
   
-  await util.promisify(setTimeout)(3000);
+  await promisify(setTimeout)(3000);
   
   env.hydrated = dom.window.document;
 });
