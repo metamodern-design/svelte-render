@@ -1,4 +1,5 @@
-import { access, rmdir } from 'fs/promises';
+import { existsSync, rmSync } from 'fs';
+import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 import { promisify } from 'util';
 
@@ -45,8 +46,8 @@ test.before(async (env) => {
 });
 
 
-test.after(async () => {
-  await rmdir(dist, { recursive: true });
+test.after(() => {
+  rmSync(dist, { recursive: true });
 });
 
 
@@ -94,8 +95,8 @@ test('Client hydrates with current datetime', (env) => {
 });
 
 
-test('Assets copied to dist', async () => {
-  assert.not.throws(await access(resolve(dist, 'something.txt')));
+test('Assets copied to dist', () => {
+  assert.ok(existsSync(resolve(dist, 'something.txt')));
 });
 
 

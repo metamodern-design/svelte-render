@@ -1,4 +1,5 @@
-import { access, rmdir } from 'fs/promises';
+import { existsSync, rmSync } from 'fs';
+import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 
 import { suite } from 'uvu';
@@ -32,7 +33,7 @@ test.before(async (env) => {
 
 
 test.after(async () => {
-  await rmdir(dist, { recursive: true });
+  rmSync(dist, { recursive: true });
 });
 
 
@@ -78,8 +79,8 @@ test('SSR loads with default date parameter', (env) => {
 });
 
 
-test('Assets copied to dist', async () => {
-  assert.not.throws(await access(resolve(dist, 'something.txt')));
+test('Assets copied to dist', () => {
+  assert.ok(existsSync(resolve(dist, 'something.txt')));
 });
 
 export default test;
