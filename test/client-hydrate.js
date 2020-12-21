@@ -46,8 +46,8 @@ test.before(async (env) => {
 });
 
 
-test.after(async () => {
-  await rm(dist, { recursive: true });
+test.after(() => {
+  rm(dist, { recursive: true, force: true });
 });
 
 
