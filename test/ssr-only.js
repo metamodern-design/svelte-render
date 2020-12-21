@@ -1,5 +1,5 @@
-import { existsSync, rmdirSync } from 'fs';
-import { readFile } from 'fs/promises';
+import { existsSync } from 'fs';
+import { readFile, rm } from 'fs/promises';
 import { resolve } from 'path';
 
 import { suite } from 'uvu';
@@ -33,7 +33,7 @@ test.before(async (env) => {
 
 
 test.after(() => {
-  rmdirSync(dist, { recursive: true });
+  rm(dist, { recursive: true });
 });
 
 
