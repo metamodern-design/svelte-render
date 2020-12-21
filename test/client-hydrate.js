@@ -1,7 +1,8 @@
 import path from 'path';
 import util from 'util';
 
-import test from 'ava';
+import { suite } from 'uvu';
+import * as assert from 'uvu/assert';
 import del from 'del';
 import fs from 'fs-extra';
 import jsdom from 'jsdom';
@@ -16,7 +17,7 @@ const src = path.resolve(context, 'fixtures/src');
 const assets = path.resolve(context, 'fixtures/assets');
 const dist = path.resolve(context, 'client-hydrate');
 
-
+const test = suite('Client Hydrate');
 
 test.before(async (t) => {
   await render(context, { src, dist, assets });
@@ -45,7 +46,7 @@ test.before(async (t) => {
 });
 
 
-test.after.always(async () => {
+test.after.each(async () => {
   await del(dist);
 });
 
@@ -54,7 +55,7 @@ test('SSR loads with hello world', async (t) => {
   const { hydrated } = t.context;
   const hello = hydrated.getElementById('hello');
   
-  t.truthy(hello);
+  t.ok(hello);
  
   t.is(
     hello.textContent.trim(),
@@ -67,7 +68,7 @@ test('Client hydrates with assigned message prop', async (t) => {
   const { hydrated } = t.context;
   const message = hydrated.getElementById('message');
   
-  t.truthy(message);
+  t.ok(message);
   
   t.is(
     message.textContent.trim(),
@@ -80,9 +81,9 @@ test('Client hydrates with current datetime', async (t) => {
   const { hydrated } = t.context;
   const time = hydrated.getElementById('time');
   
-  t.truthy(time);
+  t.ok(time);
   
-  t.not(
+  t.is.not(
     time.textContent.trim(),
     'The time is now 00:00:00 on 01/01/00.',
   );
@@ -90,5 +91,8 @@ test('Client hydrates with current datetime', async (t) => {
 
 
 test('Assets copied to dist', async (t) => {
-  t.true(await fs.pathExists(path.resolve(dist, 'something.txt')));
+  t.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
 });
+
+
+export default test;
