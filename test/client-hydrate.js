@@ -50,12 +50,12 @@ test.after(async () => {
 });
 
 
-test('Always passes', async () => {
+test('Always passes', () => {
   assert.ok(1);
 });
 
 
-test('SSR loads with hello world', async (env) => {
+test('SSR loads with hello world', (env) => {
   const { hydrated } = env;
   const hello = hydrated.getElementById('hello');
   
@@ -68,7 +68,7 @@ test('SSR loads with hello world', async (env) => {
 });
 
 
-test('Client hydrates with assigned message prop', async (env) => {
+test('Client hydrates with assigned message prop', (env) => {
   const { hydrated } = env;
   const message = hydrated.getElementById('message');
   
@@ -81,7 +81,7 @@ test('Client hydrates with assigned message prop', async (env) => {
 });
 
 
-test('Client hydrates with current datetime', async (env) => {
+test('Client hydrates with current datetime', (env) => {
   const { hydrated } = env;
   const time = hydrated.getElementById('time');
   

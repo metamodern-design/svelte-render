@@ -46,17 +46,17 @@ test.before(async (env) => {
 });
 
 
-test.after(async () => {
-  await rmdir(dist, { recursive: true });
+test.after(() => {
+  rmdir(dist, { recursive: true });
 });
 
 
-test('Always passes', async () => {
+test('Always passes', () => {
   assert.ok(1);
 });
 
 
-test('Client generates DOM with hello world', async (env) => {
+test('Client generates DOM with hello world', (env) => {
   const { hydrated } = env;
   const hello = hydrated.getElementById('hello');
   
@@ -69,7 +69,7 @@ test('Client generates DOM with hello world', async (env) => {
 });
 
 
-test('Client generates DOM with assigned message prop', async (env) => {
+test('Client generates DOM with assigned message prop', (env) => {
   const { hydrated } = env;
   const message = hydrated.getElementById('message');
   
@@ -82,7 +82,7 @@ test('Client generates DOM with assigned message prop', async (env) => {
 });
 
 
-test('Client generates DOM with current datetime', async (env) => {
+test('Client generates DOM with current datetime', (env) => {
   const { hydrated } = env;
   const time = hydrated.getElementById('time');
   
@@ -95,8 +95,8 @@ test('Client generates DOM with current datetime', async (env) => {
 });
 
 
-test('Assets copied to dist', async () => {
-  assert.not.throws(await access(resolve(dist, 'something.txt')));
+test('Assets copied to dist', () => {
+  access(resolve(dist, 'something.txt'));
 });
 
 export default test;
