@@ -26,7 +26,7 @@
     "lint": "eslint --fix src",
     "release": "np",
     "sync": "git pull && git add . && git commit -m 'automated sync' && git push",
-    "test": "npm run build && ava test/*.js",
+    "test": "npm run build && node test/index.js",
     "update": "updtr"
   },
   "dependencies": {

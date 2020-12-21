@@ -94,3 +94,5 @@ test('Client generates DOM with current datetime', async (t) => {
 test('Assets copied to dist', async (t) => {
   t.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
 });
+
+export default test;

@@ -77,3 +77,5 @@ test('SSR loads with default date parameter', (t) => {
 test('Assets copied to dist', async (t) => {
   t.ok(await fs.pathExists(path.resolve(dist, 'something.txt')));
 });
+
+export default test;
