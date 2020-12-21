@@ -1,6 +1,5 @@
 extends:
   - airbnb-base
-  - plugin:ava/recommended
 
 parserOptions:
   ecmaVersion: 2020
@@ -10,7 +9,6 @@ env:
   node: true
 
 plugins:
-  - ava
   - import
   - types
   - svelte3
