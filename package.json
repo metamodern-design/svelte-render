@@ -33,8 +33,6 @@
     "@rollup/plugin-node-resolve": "^11.0.1",
     "@rollup/plugin-replace": "^2.3.4",
     "clean-stack": "^3.0.1",
-    "del": "^6.0.0",
-    "fs-extra": "^9.0.1",
     "mri": "^1.1.6",
     "ora": "^5.1.0",
     "rollup": "^2.35.1",
