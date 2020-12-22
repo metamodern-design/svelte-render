@@ -79,6 +79,7 @@ async function(context: string, {
   transpile = !development,
   rollupInputPlugins = [],
   rollupInputOptions = {},
+  compilerOptions = {},
   sveltePreprocess = {},
   svelteOptions = {},
   terserOptions = {},
@@ -123,7 +124,8 @@ The following options may be specified as file names or paths and will be resolv
 
 - __rollupInputPlugins__: input plugins ([official](https://github.com/rollup/plugins), [community](https://github.com/rollup/awesome)) to pass to Rollup
 - __rollupInputOptions__: additional [input options](http://rollupjs.org/guide/en/#inputoptions-object) to pass to Rollup
-- __sveltePreprocess__: [preprocessing functions](https://svelte.dev/docs#svelte_preprocess) to pass to `rollup-plugin-svelte` (under the `preprocess` option)
+- __compilerOptions__: [compiler options](https://svelte.dev/docs#svelte_compile) to pass to `rollup-plugin-svelte` (under the `compilerOptions` key)
+- __sveltePreprocess__: [preprocessing functions](https://svelte.dev/docs#svelte_preprocess) to pass to `rollup-plugin-svelte` (under the `preprocess` key)
 - __svelteOptions__: additional [options](https://github.com/sveltejs/rollup-plugin-svelte#usage) to pass to `rollup-plugin-svelte`
 - __terserOptions__: [options](https://github.com/terser/terser#minify-options) to pass to `rollup-plugin-terser`
 
