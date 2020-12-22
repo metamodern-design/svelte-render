@@ -1,8 +1,8 @@
 # @metamodern/svelte-render
 
-*A "Sapper-lite" specifically for Jamstack (serverless) apps*
+*A friendly Jamstack-focused build tool for Svelte apps*
 
-I created this utility to scaffold build configurations for my Svelte projects. Because I focus on modern static sites and client-side apps that can be deployed with Netlify, Sapper includes a lot of infrastructure for server-side development that I don't need.
+I created this utility to scaffold build configurations for my Svelte projects. Because I focus on modern static sites and client-side apps that can be deployed with Netlify, Sapper includes a lot of infrastructure for server-side development that I don't need. Svelte Kit is around the corner as a next-gen replacement for Sapper, but it may not be production-ready in the immediate future, so I will be maintaining this CLI tool until I have a solid replacement. 
 
 ## Features
 
@@ -25,7 +25,7 @@ npm i @metamodern/svelte-render
 
 ## CLI Usage
 
-The CLI script is released as an ES module only. Minimum Node.js version is 12 (latest LTS as of release date). 
+The CLI script is released as an ES module only. Minimum Node.js version is 14 (latest LTS as of release date). 
 
 ```sh
 npx svelte-render [context] [--key=value]
@@ -48,8 +48,6 @@ npx svelte-render --src=. --dist=public
 npx svelte-render --configFile=./config/svelte-render.js
 
 ```
-
-*Note: The CLI script turns on the `--experimental-modules` flag in Node v12; the flag has no effect in Node v14+ as ES modules are enabled by default.*
 
 
 ## Configuration file
