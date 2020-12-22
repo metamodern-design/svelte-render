@@ -10,7 +10,6 @@ env:
 
 plugins:
   - import
-  - types
   - svelte3
 
 overrides:
@@ -22,8 +21,6 @@ overrides:
 rules:
   no-console: off
   no-underscore-dangle: off
-  types/assign-type: error
-  types/array-type: error
   import/no-extraneous-dependencies:
     - error
     - devDependencies: true
@@ -31,3 +28,4 @@ rules:
     - error
     - always
     - ignorePackages: true
+  import/prefer-default-export: off
