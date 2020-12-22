@@ -6,7 +6,7 @@ import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
 import jsdom from 'jsdom';
 
-import render from '../lib/index.js';
+import { render } from '../lib/index.js';
 
 
 const { JSDOM } = jsdom;
