@@ -43,11 +43,13 @@ test.before(async (env) => {
   
   await promisify(setTimeout)(3000);
   
+  env.window = dom.window;
   env.hydrated = dom.window.document;
 });
 
 
-test.after(() => {
+test.after((env) => {
+  env.window.close();
   rmSync(dist, { recursive: true, force: true });
 });
 

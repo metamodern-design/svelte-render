@@ -28,11 +28,13 @@ test.before(async (env) => {
   
   const dom = new JSDOM(html);
   
+  env.window = dom.window;
   env.ssr = dom.window.document;
 });
 
 
 test.after(() => {
+  env.window.close();
   rmSync(dist, { recursive: true, force: true });
 });
 
