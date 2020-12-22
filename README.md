@@ -38,7 +38,7 @@ npx svelte-render [--key=value]
 npx svelte-render --development
 
 # just output HTML from the entry file
-npx svelte-render --client=false --noCss
+npx svelte-render --client=0 --noCss
 
 # specify a custom directory structure
 npx svelte-render --src=. --dist=public
