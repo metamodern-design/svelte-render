@@ -98,7 +98,12 @@ test('Client hydrates with current datetime', (env) => {
 
 
 test('Assets copied to dist', () => {
-  assert.ok(existsSync(resolve(dist, 'something.txt')));
+  assert.ok([
+    'something.txt',
+    'something-else.txt',
+    'folder/file1.txt',
+    'folder/file2.txt',
+  ].every((filename) => existsSync(resolve(dist, filename))));
 });
 
 
