@@ -141,7 +141,7 @@ The following options may be specified as file names or paths and will be resolv
 Render hooks are functions to execute in tandem with the main rendering function. Each function will be passed the resolved `context` and the full options object. Async functions are supported.
 
 - __before__: function to invoke and await before rendering
-- __onRender__: function to invoke and await in parallel with the last set of rendering functions
+- __onRender__: function to invoke and await in parallel with Rollup build of client/entry scripts
 - __after__: function to invoke and await after rendering
 
 
