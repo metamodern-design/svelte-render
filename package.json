@@ -1,6 +1,6 @@
 {
   "name": "@metamodern/svelte-render",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A friendly Jamstack-focused build tool for Svelte apps",
   "author": "Daniel C. Narey <os@metamodern.design>",
   "license": "ISC",
