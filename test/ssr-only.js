@@ -34,7 +34,9 @@ test.before(async (env) => {
 
 
 test.after((env) => {
-  env.window.close();
+  if (env.window) {
+    env.window.close();
+  }
   rmSync(dist, { recursive: true, force: true });
 });
 
